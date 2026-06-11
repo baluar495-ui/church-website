@@ -1,0 +1,128 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 16px 0;
+}
+
+.navbar.scrolled {
+    background: #1E3A8A;
+    padding: 12px 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+}
+
+.nav-logo {
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #FFD700;
+    transition: color 0.3s;
+}
+
+.navbar.scrolled .nav-logo {
+    color: #FFD700;
+}
+
+.logo-icon {
+    margin-right: 8px;
+    color: #FFD700;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.navbar.scrolled .nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: #FFD700;
+}
+
+.nav-link.active {
+    color: #FFD700;
+    border-bottom: 2px solid #FFD700;
+    padding-bottom: 4px;
+}
+
+.btn-give {
+    background: #FFD700;
+    color: #1E3A8A;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-give:hover {
+    background: #DC2626;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #FFD700;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #1E3A8A;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 40px;
+        transition: 0.3s;
+        box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-link {
+        color: white !important;
+        font-size: 18px;
+    }
+
+    .btn-give {
+        width: 100%;
+        text-align: center;
+    }
+}
