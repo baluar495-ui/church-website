@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Sermons from './pages/sermons';
+import Events from './pages/Events';  // ← ADD THIS IMPORT
 import './App.css';
 
 function App() {
@@ -11,8 +13,8 @@ function App() {
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/sermons" element={<ComingSoon title="Prédications" />} />
-                    <Route path="/events"  element={<ComingSoon title="Événements" />} />
+                    <Route path="/sermons" element={<Sermons />} />
+                    <Route path="/events" element={<Events />} />  {/* ← CHANGED: Now uses Events component */}
                     <Route path="/prayer"  element={<ComingSoon title="Prière" />} />
                     <Route path="/contact" element={<ComingSoon title="Contact" />} />
                 </Routes>

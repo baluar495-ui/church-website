@@ -18,712 +18,393 @@
      --mid-gray:    #9CA3AF;
      --text-dark:   #111827;
      --text-body:   #374151;
-   
      --font-display: 'Playfair Display', Georgia, serif;
      --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-   
      --radius-sm: 6px;
      --radius-md: 12px;
      --radius-lg: 24px;
-   
      --section-v: 96px;
      --container: 1160px;
    }
-   
+
    .home { font-family: var(--font-body); color: var(--text-body); background: var(--white); overflow-x: hidden; }
    .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
    .container-full { width: 100%; padding: 0; }
-   
+
    .section-tag {
      display: inline-block;
      font-size: 11px; font-weight: 700;
      letter-spacing: 3px; text-transform: uppercase;
      color: var(--gold); margin-bottom: 16px;
    }
-   
-   /* ============================================
-      HERO — ROTATING
-      ============================================ */
-   .hero-section {
-     position: relative;
-     min-height: 100vh;
-     display: flex;
-     align-items: center;
-     justify-content: flex-start;
-     overflow: hidden;
-   }
-   
-   /* Each slide fades in/out */
-   .hero-slide {
-     position: absolute;
-     inset: 0;
-     background-size: cover;
-     background-position: center;
-     opacity: 0;
-     transition: opacity 1.2s ease;
-     /* Ken Burns subtle zoom */
-     animation: kenBurns 10s ease-in-out infinite alternate;
-   }
-   
+
+   /* HERO */
+   .hero-section { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; overflow: hidden; }
+   .hero-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.2s ease; animation: kenBurns 10s ease-in-out infinite alternate; }
    .hero-slide.active { opacity: 1; }
-   
-   @keyframes kenBurns {
-     from { transform: scale(1); }
-     to   { transform: scale(1.06); }
-   }
-   
-   .hero-overlay {
-     position: absolute; inset: 0;
-     background: linear-gradient(120deg, rgba(15,32,87,0.88) 0%, rgba(15,32,87,0.55) 60%, rgba(15,32,87,0.15) 100%);
-     z-index: 1;
-   }
-   
+   @keyframes kenBurns { from { transform: scale(1); } to { transform: scale(1.06); } }
+   .hero-overlay { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(15,32,87,0.88) 0%, rgba(15,32,87,0.55) 60%, rgba(15,32,87,0.15) 100%); z-index: 1; }
    .hero-content { position: relative; z-index: 2; padding: 0 80px; max-width: 720px; }
    .hero-text { color: var(--white); }
-   
-   .hero-text .hero-tag {
-     display: inline-block; font-size: 11px; font-weight: 700;
-     letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
-     background: rgba(245,197,24,0.12); border: 1px solid rgba(245,197,24,0.35);
-     padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
-   }
-   
-   .hero-text h1 {
-     font-family: var(--font-display);
-     font-size: clamp(36px, 5vw, 64px); font-weight: 800;
-     line-height: 1.1; color: var(--white); margin: 0 0 24px;
-   }
-   
-   .hero-text p {
-     font-size: 18px; font-weight: 300; line-height: 1.7;
-     color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 520px;
-   }
-   
+   .hero-text .hero-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); background: rgba(245,197,24,0.12); border: 1px solid rgba(245,197,24,0.35); padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+   .hero-text h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 800; line-height: 1.1; color: var(--white); margin: 0 0 24px; }
+   .hero-text p { font-size: 18px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 520px; }
    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
-   
-   /* Arrows */
-   .hero-arrow {
-     position: absolute; top: 50%; transform: translateY(-50%);
-     z-index: 3; background: rgba(255,255,255,0.12);
-     border: 1px solid rgba(255,255,255,0.25); color: var(--white);
-     width: 48px; height: 48px; border-radius: 50%;
-     display: flex; align-items: center; justify-content: center;
-     font-size: 16px; cursor: pointer;
-     transition: background 0.25s ease, transform 0.25s ease;
-     backdrop-filter: blur(4px);
-   }
-   
+   .hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: background 0.25s ease, transform 0.25s ease; backdrop-filter: blur(4px); }
    .hero-arrow:hover { background: var(--gold); color: var(--navy-dark); transform: translateY(-50%) scale(1.1); }
-   .hero-arrow--left  { left: 28px; }
+   .hero-arrow--left { left: 28px; }
    .hero-arrow--right { right: 28px; }
-   
-   /* Dots */
-   .slide-indicators {
-     position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-     z-index: 3; display: flex; gap: 10px;
-   }
-   
-   .indicator {
-     width: 10px; height: 10px; border-radius: 50%;
-     border: 2px solid rgba(255,255,255,0.5);
-     background: transparent; cursor: pointer;
-     transition: all 0.3s ease; padding: 0;
-   }
-   
+   .slide-indicators { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 10px; }
+   .indicator { width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); background: transparent; cursor: pointer; transition: all 0.3s ease; padding: 0; }
    .indicator.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
-   
-   /* ============================================
-      SERVICE TIMES BAR
-      ============================================ */
+
+   /* SERVICE BAR */
    .service-bar { background: var(--navy-dark); overflow: hidden; }
-   
-   .service-bar-inner {
-     display: flex; align-items: stretch; justify-content: center;
-     flex-wrap: wrap; max-width: var(--container); margin: 0 auto;
-   }
-   
-   .service-bar-item {
-     display: flex; flex-direction: column; align-items: center;
-     justify-content: center; padding: 20px 36px; gap: 4px;
-     transition: background 0.2s ease;
-   }
-   
+   .service-bar-inner { display: flex; align-items: stretch; justify-content: center; flex-wrap: wrap; max-width: var(--container); margin: 0 auto; }
+   .service-bar-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 36px; gap: 4px; transition: background 0.2s ease; }
    .service-bar-item:hover { background: rgba(255,255,255,0.05); }
    .service-bar-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
-   .service-bar-time  { font-size: 15px; font-weight: 700; color: var(--gold); }
+   .service-bar-time { font-size: 15px; font-weight: 700; color: var(--gold); }
    .service-bar-divider { color: rgba(255,255,255,0.15); font-size: 20px; display: flex; align-items: center; padding: 0 8px; }
-   
-   /* ============================================
-      NOS CULTES
-      ============================================ */
+
+   /* NOS CULTES */
    .services-section { padding: var(--section-v) 0; background: var(--off-white); }
-   
-   .services-grid {
-     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-     align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-   }
-   
-   .services-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px);
-     font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 16px;
-   }
-   
+   .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+   .services-content h2 { font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px); font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 16px; }
    .services-content > p { font-size: 16px; line-height: 1.8; color: var(--text-body); margin-bottom: 32px; }
-   
    .schedule-grid { display: flex; flex-direction: column; gap: 10px; }
-   
-   .schedule-card {
-     display: flex; align-items: center; border-radius: var(--radius-md);
-     overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-     transition: transform 0.2s ease, box-shadow 0.2s ease;
-   }
-   
+   .schedule-card { display: flex; align-items: center; border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.07); transition: transform 0.2s ease, box-shadow 0.2s ease; }
    .schedule-card:hover { transform: translateX(5px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-   
-   .schedule-card-day {
-     min-width: 100px; padding: 15px 16px; font-size: 11px; font-weight: 700;
-     letter-spacing: 1.5px; text-transform: uppercase; text-align: center; flex-shrink: 0;
-   }
-   
-   .schedule-card-body {
-     flex: 1; padding: 15px 20px; display: flex;
-     justify-content: space-between; align-items: center; background: var(--white);
-   }
-   
+   .schedule-card-day { min-width: 100px; padding: 15px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; flex-shrink: 0; }
+   .schedule-card-body { flex: 1; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--white); }
    .schedule-card-label { font-size: 14px; font-weight: 600; color: var(--text-dark); }
-   
    .schedule-card-time { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--navy); }
    .schedule-clock { font-size: 11px; color: var(--mid-gray); }
-   
    .schedule-card--gold .schedule-card-day { background: var(--navy-dark); color: var(--gold); }
    .schedule-card--navy .schedule-card-day { background: var(--navy); color: var(--white); }
    .schedule-card--rose .schedule-card-day { background: var(--rose); color: var(--white); }
-   
    .services-image img { width: 100%; height: 540px; object-fit: cover; border-radius: var(--radius-lg); display: block; }
-   
-   /* ============================================
-      WELCOME
-      ============================================ */
-   .welcome-section { padding: var(--section-v) 0; background: var(--white); }
-   
-   .welcome-grid {
-     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-     align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-   }
-   
-   .welcome-image { position: relative; }
-   
-   .welcome-image img { width: 100%; height: 520px; object-fit: cover; border-radius: var(--radius-lg); display: block; }
-   
-   .welcome-image::before {
-     content: ''; position: absolute; top: -20px; left: -20px; right: 20px; bottom: 20px;
-     border: 3px solid var(--gold); border-radius: var(--radius-lg); z-index: -1;
-   }
-   
-   .welcome-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px);
-     font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px;
-   }
-   
-   .welcome-content p { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 36px; }
-   .welcome-features { display: flex; flex-direction: column; gap: 16px; }
-   .feature { display: flex; align-items: center; gap: 14px; font-size: 15px; font-weight: 500; color: var(--text-dark); }
-   .feature-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; }
-   
-   /* ============================================
-      MINISTRY PHOTO STRIP (shared)
-      ============================================ */
-   .ministry-photo-strip {
-     display: grid;
-     grid-template-columns: repeat(3, 1fr);
-     gap: 0;
-     margin-top: 64px;
-     overflow: hidden;
-   }
-   
-   .ministry-photo-strip--dark .ministry-photo::after {
-     background: linear-gradient(to top, rgba(15,32,87,0.5) 0%, transparent 60%);
-   }
-   
-   .ministry-photo {
-     position: relative;
-     overflow: hidden;
-     aspect-ratio: 4/3;
-   }
-   
-   .ministry-photo img {
-     width: 100%; height: 100%;
-     object-fit: cover; display: block;
-     transition: transform 0.5s ease;
-   }
-   
+
+   /* MINISTRY PHOTO STRIP */
+   .ministry-photo-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 64px; overflow: hidden; }
+   .ministry-photo-strip--dark .ministry-photo::after { background: linear-gradient(to top, rgba(15,32,87,0.5) 0%, transparent 60%); }
+   .ministry-photo { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+   .ministry-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
    .ministry-photo:hover img { transform: scale(1.07); }
-   
-   .ministry-photo::after {
-     content: '';
-     position: absolute; inset: 0;
-     background: linear-gradient(to top, rgba(15,32,87,0.3) 0%, transparent 60%);
-     transition: opacity 0.3s ease;
-   }
-   
+   .ministry-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,32,87,0.3) 0%, transparent 60%); transition: opacity 0.3s ease; }
    .ministry-photo:hover::after { opacity: 0.5; }
-   
-   /* ============================================
-      ÉCOLE DU DIMANCHE
-      ============================================ */
+
+   /* ÉCOLE DU DIMANCHE */
    .sunday-school-section { padding: var(--section-v) 0 0; background: var(--light-gray); }
-   
-   .sunday-school-grid {
-     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-     align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-     padding-bottom: var(--section-v);
-   }
-   
-   .sunday-school-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px);
-     font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px;
-   }
-   
-   .sunday-school-mission {
-     font-size: 16px; font-style: italic; line-height: 1.8; color: var(--text-body);
-     border-left: 4px solid var(--gold); padding-left: 20px; margin-bottom: 32px !important;
-   }
-   
-   .program-title {
-     display: flex; align-items: center; gap: 10px; font-size: 13px;
-     font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-     color: var(--navy); margin-bottom: 18px;
-   }
-   
+   .sunday-school-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px; padding-bottom: var(--section-v); }
+   .sunday-school-content h2 { font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px); font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px; }
+   .sunday-school-mission { font-size: 16px; font-style: italic; line-height: 1.8; color: var(--text-body); border-left: 4px solid var(--gold); padding-left: 20px; margin-bottom: 32px !important; }
+   .program-title { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--navy); margin-bottom: 18px; }
    .program-title-icon { color: var(--gold); font-size: 16px; }
    .program-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
-   
-   .program-item {
-     display: flex; align-items: center; gap: 16px; background: var(--white);
-     border-radius: var(--radius-md); padding: 16px 20px;
-     box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--gold);
-   }
-   
-   .program-time-badge {
-     background: var(--navy); color: var(--gold); font-size: 13px; font-weight: 700;
-     padding: 8px 14px; border-radius: var(--radius-sm); white-space: nowrap; flex-shrink: 0;
-   }
-   
+   .program-item { display: flex; align-items: center; gap: 16px; background: var(--white); border-radius: var(--radius-md); padding: 16px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--gold); }
+   .program-time-badge { background: var(--navy); color: var(--gold); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: var(--radius-sm); white-space: nowrap; flex-shrink: 0; }
    .program-item-info { display: flex; flex-direction: column; gap: 3px; }
    .program-item-label { font-size: 14px; font-weight: 700; color: var(--text-dark); }
-   .program-item-desc  { font-size: 13px; color: var(--mid-gray); }
-   
-   .sunday-school-values { display: flex; gap: 16px; flex-wrap: wrap; }
-   
-   .ss-value {
-     display: flex; align-items: center; gap: 8px; background: var(--white);
-     border-radius: 100px; padding: 8px 16px; font-size: 13px; font-weight: 600;
-     color: var(--navy-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+   .program-item-desc { font-size: 13px; color: var(--mid-gray); }
+
+   /* ── FIX 1: Sunday School values — HORIZONTAL (CORRECTED) ── */
+   .sunday-school-values { 
+       display: flex; 
+       flex-direction: row; 
+       flex-wrap: wrap; 
+       gap: 12px; 
+       justify-content: flex-start;
+       align-items: center;
+       margin-top: 24px;
    }
-   
+
+   .ss-value { display: flex; align-items: center; gap: 8px; background: var(--white); border-radius: 100px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--navy-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
    .ss-value-icon { color: var(--gold); font-size: 14px; }
-   
    .sunday-school-image { position: relative; }
-   
    .sunday-school-image img { width: 100%; height: 500px; object-fit: cover; border-radius: var(--radius-lg); display: block; }
-   
-   .ss-image-badge {
-     position: absolute; bottom: 28px; left: 28px; background: var(--navy-dark);
-     border-radius: var(--radius-md); padding: 16px 24px;
-     display: flex; align-items: center; gap: 12px;
-     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-   }
-   
+   .ss-image-badge { position: absolute; bottom: 28px; left: 28px; background: var(--navy-dark); border-radius: var(--radius-md); padding: 16px 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
    .ss-badge-number { font-family: var(--font-display); font-size: 40px; font-weight: 800; color: var(--gold); line-height: 1; }
-   .ss-badge-label  { font-size: 13px; font-weight: 600; color: var(--white); max-width: 100px; line-height: 1.4; }
-   
-   /* ============================================
-      JEUNESSE
-      ============================================ */
+   .ss-badge-label { font-size: 13px; font-weight: 600; color: var(--white); max-width: 100px; line-height: 1.4; }
+
+   /* JEUNESSE */
    .youth-section { padding: var(--section-v) 0 0; background: var(--navy-dark); }
-   
-   .youth-grid {
-     display: grid; grid-template-columns: 360px 1fr; gap: 80px;
-     align-items: start; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-     padding-bottom: var(--section-v);
-   }
-   
-   .youth-leader-card {
-     background: rgba(255,255,255,0.05); border-radius: var(--radius-lg);
-     overflow: hidden; border: 1px solid rgba(255,255,255,0.08);
-   }
-   
+   .youth-grid { display: grid; grid-template-columns: 360px 1fr; gap: 80px; align-items: start; max-width: var(--container); margin: 0 auto; padding: 0 40px; padding-bottom: var(--section-v); }
+   .youth-leader-card { background: rgba(255,255,255,0.05); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
    .youth-leader-img-wrap { position: relative; overflow: hidden; }
-   
-   .youth-leader-img-wrap img {
-     width: 100%; height: 360px; object-fit: cover; object-position: top center;
-     display: block; transition: transform 0.4s ease;
-   }
-   
+   .youth-leader-img-wrap img { width: 100%; height: 360px; object-fit: cover; object-position: top center; display: block; transition: transform 0.4s ease; }
    .youth-leader-card:hover .youth-leader-img-wrap img { transform: scale(1.04); }
-   
    .youth-leader-info { padding: 24px 28px; }
-   
    .youth-leader-info h3 { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--white); margin: 0 0 4px; }
-   
    .youth-leader-info > p { font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px !important; }
-   
    .youth-leader-quote { display: flex; align-items: flex-start; gap: 10px; background: rgba(245,197,24,0.08); border-radius: var(--radius-sm); padding: 12px 16px; }
    .youth-quote-icon { color: var(--gold); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
    .youth-leader-quote span { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.75); line-height: 1.6; }
-   
    .youth-tag { color: var(--gold-light) !important; }
-   
-   .youth-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px);
-     font-weight: 700; color: var(--white); line-height: 1.15; margin: 0 0 20px;
-   }
-   
-   .youth-mission {
-     font-size: 16px; font-style: italic; line-height: 1.8;
-     color: rgba(255,255,255,0.8); border-left: 4px solid var(--gold);
-     padding-left: 20px; margin-bottom: 32px !important;
-   }
-   
+   .youth-content h2 { font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px); font-weight: 700; color: var(--white); line-height: 1.15; margin: 0 0 20px; }
+   .youth-mission { font-size: 16px; font-style: italic; line-height: 1.8; color: rgba(255,255,255,0.8); border-left: 4px solid var(--gold); padding-left: 20px; margin-bottom: 32px !important; }
    .youth-program-title { color: rgba(255,255,255,0.7) !important; }
    .youth-program-title .program-title-icon { color: var(--gold); }
-   
    .youth-activities { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-   
-   .youth-activity-card {
-     display: flex; align-items: flex-start; gap: 14px;
-     background: rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 20px;
-     border: 1px solid rgba(255,255,255,0.08);
-     transition: background 0.25s ease, transform 0.25s ease;
-   }
-   
+   .youth-activity-card { display: flex; align-items: flex-start; gap: 14px; background: rgba(255,255,255,0.06); border-radius: var(--radius-md); padding: 20px; border: 1px solid rgba(255,255,255,0.08); transition: background 0.25s ease, transform 0.25s ease; }
    .youth-activity-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-   
    .ya-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; margin-top: 2px; }
    .youth-activity-card strong { display: block; font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
    .youth-activity-card p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; margin: 0 !important; }
-   
-   /* ============================================
-      LADIES
-      ============================================ */
+
+   /* LADIES */
    .ladies-section { padding: var(--section-v) 0 0; background: var(--white); }
-   
-   .ladies-grid {
-     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
-     align-items: start; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-     padding-bottom: var(--section-v);
-   }
-   
+   .ladies-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; max-width: var(--container); margin: 0 auto; padding: 0 40px; padding-bottom: var(--section-v); }
    .ladies-image-col { display: flex; flex-direction: column; gap: 20px; }
-   
    .ladies-img-wrap { position: relative; border-radius: var(--radius-lg); overflow: hidden; }
-   
-   .ladies-img-wrap img {
-     width: 100%; height: 420px; object-fit: cover; object-position: top center;
-     display: block; transition: transform 0.4s ease;
-   }
-   
+   .ladies-img-wrap img { width: 100%; height: 420px; object-fit: cover; object-position: top center; display: block; transition: transform 0.4s ease; }
    .ladies-img-wrap:hover img { transform: scale(1.03); }
-   
-   .ladies-img-wrap::after {
-     content: ''; position: absolute; inset: 0;
-     background: linear-gradient(to top, rgba(159,18,57,0.35) 0%, transparent 60%);
-     border-radius: var(--radius-lg); pointer-events: none;
-   }
-   
+   .ladies-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(159,18,57,0.35) 0%, transparent 60%); border-radius: var(--radius-lg); pointer-events: none; }
    .ladies-stat-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
-   
-   .ladies-stat {
-     display: flex; flex-direction: column; align-items: center; gap: 8px;
-     background: var(--rose-light); border-radius: var(--radius-md); padding: 16px 12px;
-     font-size: 12px; font-weight: 600; color: var(--rose); text-align: center;
-     border-bottom: 3px solid var(--rose-mid); transition: transform 0.2s ease;
-   }
-   
+   .ladies-stat { display: flex; flex-direction: column; align-items: center; gap: 8px; background: var(--rose-light); border-radius: var(--radius-md); padding: 16px 12px; font-size: 12px; font-weight: 600; color: var(--rose); text-align: center; border-bottom: 3px solid var(--rose-mid); transition: transform 0.2s ease; }
    .ladies-stat:hover { transform: translateY(-3px); }
    .ladies-stat-icon { font-size: 20px; color: var(--rose-mid); }
-   
    .ladies-tag { color: var(--rose-mid) !important; }
-   
-   .ladies-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px);
-     font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px;
-   }
-   
-   .ladies-mission {
-     font-size: 16px; font-style: italic; line-height: 1.8; color: var(--text-body);
-     border-left: 4px solid var(--rose-mid); padding-left: 20px; margin-bottom: 32px !important;
-   }
-   
+   .ladies-content h2 { font-family: var(--font-display); font-size: clamp(28px,3.5vw,46px); font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px; }
+   .ladies-mission { font-size: 16px; font-style: italic; line-height: 1.8; color: var(--text-body); border-left: 4px solid var(--rose-mid); padding-left: 20px; margin-bottom: 32px !important; }
    .ladies-program-title { color: var(--rose) !important; }
    .ladies-program-title .program-title-icon { color: var(--rose-mid); }
-   
    .ladies-program-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
-   
-   .ladies-program-card {
-     border-radius: var(--radius-md); overflow: hidden;
-     box-shadow: 0 4px 16px rgba(159,18,57,0.1);
-     border: 1px solid rgba(159,18,57,0.12);
-     transition: transform 0.25s ease, box-shadow 0.25s ease;
-   }
-   
+   .ladies-program-card { border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 4px 16px rgba(159,18,57,0.1); border: 1px solid rgba(159,18,57,0.12); transition: transform 0.25s ease, box-shadow 0.25s ease; }
    .ladies-program-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(159,18,57,0.18); }
-   
    .ladies-program-header { padding: 16px 20px; background: var(--off-white); }
-   
-   .ladies-day-badge {
-     font-size: 11px; font-weight: 700; letter-spacing: 2px;
-     text-transform: uppercase; padding: 4px 12px; border-radius: 100px;
-   }
-   
+   .ladies-day-badge { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; }
    .ladies-day-badge--mercredi { background: var(--navy-dark); color: var(--gold); }
    .ladies-day-badge--vendredi { background: var(--rose); color: var(--white); }
-   
    .ladies-program-body { padding: 16px 20px; background: var(--white); }
-   
-   .ladies-program-body h4 {
-     font-family: var(--font-display); font-size: 16px; font-weight: 700;
-     color: var(--navy-dark); margin: 0 0 10px;
-   }
-   
+   .ladies-program-body h4 { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--navy-dark); margin: 0 0 10px; }
    .ladies-program-time { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: var(--rose-mid); margin-bottom: 10px; }
    .ladies-clock { font-size: 13px; color: var(--rose-mid); }
    .ladies-program-body p { font-size: 13px; line-height: 1.6; color: var(--mid-gray); margin: 0 !important; }
-   
-   .ladies-values { display: flex; gap: 12px; flex-wrap: wrap; }
-   
-   .ladies-value {
-     display: flex; align-items: center; gap: 8px; background: var(--rose-light);
-     border-radius: 100px; padding: 8px 16px; font-size: 13px; font-weight: 600;
-     color: var(--rose); transition: background 0.2s ease;
-   }
-   
+
+   /* ── FIX 2: Ladies values — HORIZONTAL ── */
+   .ladies-values { display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; }
+
+   .ladies-value { display: flex; align-items: center; gap: 8px; background: var(--rose-light); border-radius: 100px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--rose); transition: background 0.2s ease; }
    .ladies-value:hover { background: #fecdd3; }
    .lv-icon { color: var(--rose-mid); font-size: 13px; }
-   
-   /* ============================================
-      PASTOR
-      ============================================ */
+
+   /* PASTOR */
    .pastor-section { padding: var(--section-v) 0; background: var(--off-white); }
-   
-   .pastor-card {
-     display: grid; grid-template-columns: 420px 1fr; gap: 80px;
-     align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px;
-   }
-   
+   .pastor-card { display: grid; grid-template-columns: 420px 1fr; gap: 80px; align-items: center; max-width: var(--container); margin: 0 auto; padding: 0 40px; }
    .pastor-image { position: relative; }
-   
-   .pastor-image img {
-     width: 100%; height: 560px; object-fit: cover; object-position: top center;
-     border-radius: var(--radius-lg); display: block;
-   }
-   
-   .pastor-image::after {
-     content: ''; position: absolute; bottom: -16px; right: -16px;
-     width: 80px; height: 80px; background: var(--gold);
-     border-radius: var(--radius-md); z-index: -1;
-   }
-   
+   .pastor-image img { width: 100%; height: 560px; object-fit: cover; object-position: top center; border-radius: var(--radius-lg); display: block; }
+   .pastor-image::after { content: ''; position: absolute; bottom: -16px; right: -16px; width: 80px; height: 80px; background: var(--gold); border-radius: var(--radius-md); z-index: -1; }
    .pastor-content .section-tag { color: var(--gold); }
-   
-   .pastor-content h2 {
-     font-family: var(--font-display); font-size: clamp(26px,3vw,40px);
-     font-weight: 700; color: var(--navy-dark); line-height: 1.2; margin: 0 0 12px;
-   }
-   
+   .pastor-content h2 { font-family: var(--font-display); font-size: clamp(26px,3vw,40px); font-weight: 700; color: var(--navy-dark); line-height: 1.2; margin: 0 0 12px; }
    .pastor-content h3 { font-size: 17px; font-weight: 600; color: var(--navy); margin: 0 0 6px; }
-   
    .pastor-title { font-size: 14px; color: var(--mid-gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px !important; }
-   .pastor-bio   { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 36px !important; }
-   
-   .pastor-quote {
-     display: flex; gap: 16px; align-items: flex-start; background: var(--white);
-     border-left: 4px solid var(--gold); border-radius: 0 var(--radius-md) var(--radius-md) 0;
-     padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-   }
-   
+   .pastor-bio { font-size: 17px; line-height: 1.8; color: var(--text-body); margin-bottom: 36px !important; }
+   .pastor-quote { display: flex; gap: 16px; align-items: flex-start; background: var(--white); border-left: 4px solid var(--gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
    .quote-icon { color: var(--gold); font-size: 22px; margin-top: 3px; flex-shrink: 0; }
    .pastor-quote p { font-size: 16px; font-style: italic; color: var(--text-body); line-height: 1.7; }
-   
-   /* ============================================
-      MISSION + STATS
-      ============================================ */
+
+   /* MISSION & VISION */
    .mission-section { padding: var(--section-v) 0; background: var(--light-gray); }
-   
-   .mission-content { max-width: var(--container); margin: 0 auto; padding: 0 40px; text-align: center; }
-   
-   .mission-content h2 {
-     font-family: var(--font-display); font-size: clamp(28px,4vw,52px);
-     font-weight: 700; color: var(--navy-dark); margin: 0 0 40px;
-   }
-   
-   .mission-box {
-     background: var(--navy); border-radius: var(--radius-lg);
-     padding: 48px 64px; margin-bottom: 64px;
-   }
-   
-   .mission-statement {
-     font-family: var(--font-display); font-size: clamp(18px,2.2vw,26px);
-     font-style: italic; font-weight: 400; color: var(--white); line-height: 1.7;
-   }
-   
-   /* Animated stat counters */
+   .mission-vision-wrapper { margin-bottom: 64px; }
+   .mv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+   .mv-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+   .mv-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12); }
+   .mv-card-inner { padding: 48px 40px; }
+   .mv-card--vision { border-bottom: 5px solid var(--gold); }
+   .mv-card--mission { border-bottom: 5px solid var(--rose-mid); }
+   .mv-label { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+   .mv-card--mission .mv-label { color: var(--rose-mid); }
+   .mv-card h2 { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--navy-dark); margin: 0 0 20px; }
+   .mv-card p { font-size: 16px; line-height: 1.8; color: var(--text-body); }
+   .mv-subtitle { font-weight: 600; color: var(--navy-dark); margin-bottom: 16px !important; }
+   .mv-list { list-style: none; padding: 0; margin: 0; }
+   .mv-list li { font-size: 16px; line-height: 1.8; color: var(--text-body); padding-left: 20px; position: relative; margin-bottom: 8px; }
+   .mv-list li::before { content: "▹"; position: absolute; left: 0; color: var(--gold); }
+   .stats-section { padding: 0 0 var(--section-v) 0; background: var(--light-gray); }
+   .stats-section .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
-   
-   .stat-card {
-     background: var(--white); border-radius: var(--radius-lg); padding: 40px 24px;
-     display: flex; flex-direction: column; align-items: center; gap: 12px;
-     box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-     border-bottom: 4px solid var(--gold);
-     transition: transform 0.25s ease, box-shadow 0.25s ease;
-   }
-   
+   .stat-card { background: var(--white); border-radius: var(--radius-lg); padding: 40px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); border-bottom: 4px solid var(--gold); transition: transform 0.25s ease, box-shadow 0.25s ease; }
    .stat-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(30,58,138,0.15); }
-   
    .stat-icon { font-size: 28px; color: var(--gold); }
-   
-   .stat-number {
-     font-family: var(--font-display); font-size: 52px; font-weight: 800;
-     color: var(--navy-dark); line-height: 1;
-   }
-   
-   .stat-label {
-     font-size: 13px; font-weight: 600; text-transform: uppercase;
-     letter-spacing: 1.5px; color: var(--mid-gray); text-align: center;
-   }
-   
-   /* ============================================
-      EVENTS
-      ============================================ */
+   .stat-number { font-family: var(--font-display); font-size: 52px; font-weight: 800; color: var(--navy-dark); line-height: 1; }
+   .stat-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--mid-gray); text-align: center; }
+
+   /* EVENTS */
    .events-section { padding: var(--section-v) 0; background: var(--white); }
    .events-section .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
    .section-header { text-align: center; margin-bottom: 56px; }
    .section-header .section-tag { display: block; margin-bottom: 12px; }
-   
-   .section-header h2 {
-     font-family: var(--font-display); font-size: clamp(26px,3.5vw,44px);
-     font-weight: 700; color: var(--navy-dark); margin: 0;
-   }
-   
+   .section-header h2 { font-family: var(--font-display); font-size: clamp(26px,3.5vw,44px); font-weight: 700; color: var(--navy-dark); margin: 0; }
    .events-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 28px; }
-   
-   .event-card {
-     display: flex; gap: 20px; padding: 28px; background: var(--off-white);
-     border-radius: var(--radius-md); border-left: 5px solid var(--gold);
-     transition: box-shadow 0.25s ease, transform 0.25s ease;
-   }
-   
+   .event-card { display: flex; gap: 20px; padding: 28px; background: var(--off-white); border-radius: var(--radius-md); border-left: 5px solid var(--gold); transition: box-shadow 0.25s ease, transform 0.25s ease; }
    .event-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(30,58,138,0.1); }
-   
-   .event-date {
-     display: flex; flex-direction: column; align-items: center; justify-content: center;
-     background: var(--navy); color: var(--white); border-radius: var(--radius-sm);
-     min-width: 60px; padding: 12px 8px; flex-shrink: 0;
-   }
-   
-   .date-day   { font-size: 28px; font-weight: 700; line-height: 1; font-family: var(--font-display); }
+   .event-date { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--navy); color: var(--white); border-radius: var(--radius-sm); min-width: 60px; padding: 12px 8px; flex-shrink: 0; }
+   .date-day { font-size: 28px; font-weight: 700; line-height: 1; font-family: var(--font-display); }
    .date-month { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-top: 4px; }
    .event-details h3 { font-size: 16px; font-weight: 700; color: var(--text-dark); margin: 0 0 10px; }
-   
-   .event-details p {
-     font-size: 13px; color: var(--mid-gray); margin-bottom: 6px !important;
-     display: flex; align-items: center; gap: 6px;
-   }
-   
-   /* ============================================
-      FOOTER
-      ============================================ */
+   .event-details p { font-size: 13px; color: var(--mid-gray); margin-bottom: 6px !important; display: flex; align-items: center; gap: 6px; }
+
+   /* FOOTER */
    .footer { background: var(--navy-dark); color: rgba(255,255,255,0.75); font-family: var(--font-body); }
-   
    .footer-top { padding: 80px 0 56px; }
-   
-   .footer-grid {
-     display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 56px;
-     max-width: var(--container); margin: 0 auto; padding: 0 40px;
-   }
-   
-   /* Brand col */
-   .footer-logo {
-     display: flex; align-items: center; gap: 12px;
-     font-family: var(--font-display); font-size: 18px; font-weight: 700;
-     color: var(--white); margin-bottom: 20px; line-height: 1.3;
-   }
-   
+   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 56px; max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+   .footer-logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 20px; line-height: 1.3; }
    .footer-logo-icon { color: var(--gold); font-size: 28px; flex-shrink: 0; }
-   
    .footer-tagline { font-size: 14px; line-height: 1.8; color: rgba(255,255,255,0.55); margin-bottom: 28px; max-width: 280px; }
-   
    .footer-socials { display: flex; gap: 12px; }
-   
-   .social-btn {
-     width: 40px; height: 40px; border-radius: 50%;
-     background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-     display: flex; align-items: center; justify-content: center;
-     color: rgba(255,255,255,0.7); text-decoration: none;
-     transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
-   }
-   
+   .social-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); text-decoration: none; transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease; }
    .social-btn:hover { background: var(--gold); color: var(--navy-dark); transform: translateY(-3px); }
-   
-   /* Nav cols */
-   .footer-col h4 {
-     font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-     color: var(--gold); margin: 0 0 24px;
-   }
-   
+   .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 0 0 24px; }
    .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-   
-   .footer-col ul li a {
-     text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.6);
-     transition: color 0.2s ease, padding-left 0.2s ease;
-   }
-   
+   .footer-col ul li a { text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.2s ease, padding-left 0.2s ease; }
    .footer-col ul li a:hover { color: var(--gold); padding-left: 4px; }
-   
-   /* Contact col */
-   .footer-contact ul li {
-     display: flex; align-items: flex-start; gap: 10px;
-     font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6;
-   }
-   
+   .footer-contact ul li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
    .footer-contact-icon { color: var(--gold); font-size: 14px; flex-shrink: 0; margin-top: 3px; }
-   
-   /* Bottom bar */
-   .footer-bottom {
-     border-top: 1px solid rgba(255,255,255,0.08);
-     padding: 24px 40px;
-     max-width: var(--container); margin: 0 auto;
-     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-     font-size: 13px; color: rgba(255,255,255,0.4);
-   }
-   
-   /* ============================================
-      BUTTONS
-      ============================================ */
-   .btn-primary {
-     background: var(--gold); color: var(--navy-dark);
-     padding: 16px 36px; font-size: 15px; font-weight: 700;
-     border-radius: var(--radius-sm); border: none; cursor: pointer;
-     transition: all 0.25s ease; letter-spacing: 0.5px;
-   }
-   
+   .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding: 24px 40px; max-width: var(--container); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,0.4); }
+
+   /* BUTTONS */
+   .btn-primary { background: var(--gold); color: var(--navy-dark); padding: 16px 36px; font-size: 15px; font-weight: 700; border-radius: var(--radius-sm); border: none; cursor: pointer; transition: all 0.25s ease; letter-spacing: 0.5px; }
    .btn-primary:hover { background: var(--white); color: var(--navy-dark); transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
-   
-   .btn-outline {
-     background: transparent; color: var(--white);
-     padding: 16px 36px; font-size: 15px; font-weight: 600;
-     border-radius: var(--radius-sm); border: 2px solid rgba(255,255,255,0.5);
-     cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center;
-   }
-   
+   .btn-outline { background: transparent; color: var(--white); padding: 16px 36px; font-size: 15px; font-weight: 600; border-radius: var(--radius-sm); border: 2px solid rgba(255,255,255,0.5); cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; }
    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
-   
-   /* ============================================
-      RESPONSIVE
-      ============================================ */
+
+   /* WELCOME */
+   .welcome-section { padding: var(--section-v) 0; background: var(--white); }
+   .welcome-intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: stretch; margin-bottom: 80px; max-width: var(--container); margin-left: auto; margin-right: auto; padding: 0 40px; }
+   .welcome-image { position: relative; border-radius: var(--radius-lg); overflow: hidden; min-height: 580px; }
+   .welcome-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; border-radius: var(--radius-lg); }
+   .welcome-image::before { content: ''; position: absolute; top: -16px; left: -16px; width: calc(100% - 16px); height: calc(100% - 16px); border: 3px solid var(--gold); border-radius: var(--radius-lg); z-index: -1; pointer-events: none; }
+   .welcome-content { display: flex; flex-direction: column; justify-content: center; padding: 8px 0; }
+   .welcome-content h2 { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; color: var(--navy-dark); line-height: 1.15; margin: 0 0 20px; }
+   .welcome-body { font-size: 16px; line-height: 1.85; color: var(--text-body); margin-bottom: 20px !important; }
+   .first-visit-box { background: var(--off-white); border-left: 4px solid var(--gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 20px 24px; margin-bottom: 24px; }
+   .first-visit-box h4 { font-size: 14px; font-weight: 700; color: var(--navy-dark); margin: 0 0 12px; }
+   .first-visit-box ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+   .first-visit-box ul li { font-size: 13px; color: var(--text-body); line-height: 1.6; }
+   .first-visit-box ul li::before { content: '→ '; color: var(--gold); font-weight: 700; }
+   .welcome-features { display: flex; flex-direction: column; gap: 10px; }
+   .feature-card { display: flex; align-items: flex-start; gap: 14px; background: var(--white); border: 1px solid var(--light-gray); border-radius: var(--radius-md); padding: 14px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+   .feature-card:hover { box-shadow: 0 6px 20px rgba(30,58,138,0.1); transform: translateX(4px); }
+   .feature-card-icon { color: var(--gold); font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+   .feature-card strong { display: block; font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+   .feature-card p { font-size: 12px; color: var(--mid-gray); margin: 0 !important; line-height: 1.5; }
+
+   /* LEADERSHIP */
+   .leadership-block { padding-top: 72px; border-top: 1px solid var(--light-gray); max-width: var(--container); margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+   .leadership-header { text-align: center; margin-bottom: 48px; }
+   .leadership-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 42px); font-weight: 700; color: var(--navy-dark); margin: 0 0 12px; }
+   .leadership-header p { font-size: 16px; color: var(--mid-gray); }
+   .pastor-featured-card { display: grid; grid-template-columns: 380px 1fr; gap: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 32px rgba(15,32,87,0.15); margin-bottom: 40px; background: var(--navy-dark); border: 2px solid var(--gold); }
+   .pastor-featured-img { position: relative; overflow: hidden; }
+   .pastor-featured-img img { width: 100%; height: 100%; min-height: 360px; object-fit: cover; object-position: top center; display: block; transition: transform 0.4s ease; }
+   .pastor-featured-card:hover .pastor-featured-img img { transform: scale(1.03); }
+   .pastor-featured-img::after { content: ''; position: absolute; bottom: -16px; right: -16px; width: 72px; height: 72px; background: var(--gold); border-radius: var(--radius-md); z-index: 0; }
+   .pastor-featured-content { padding: 48px 48px; display: flex; flex-direction: column; justify-content: center; background: var(--navy-dark); }
+   .pastor-featured-content .section-tag { color: var(--gold); margin-bottom: 12px; }
+   .pastor-featured-content h3 { font-family: var(--font-display); font-size: clamp(20px, 2.5vw, 30px); font-weight: 700; color: var(--white); line-height: 1.25; margin: 0 0 8px; }
+   .pastor-featured-content .pastor-role { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+   .pastor-featured-content .pastor-bio-text { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.78); margin-bottom: 28px !important; }
+   .pastor-featured-quote { display: flex; gap: 14px; align-items: flex-start; background: rgba(255,255,255,0.07); border-left: 4px solid var(--gold); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 18px 22px; }
+   .pastor-featured-quote-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+   .pastor-featured-quote p { font-size: 15px; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.7; margin: 0 !important; }
+   .elders-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+   .elder-card { background: var(--off-white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid var(--light-gray); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+   .elder-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(30,58,138,0.12); }
+   .elder-img-wrap { overflow: hidden; background: var(--light-gray); position: relative; }
+   .elder-img-wrap img { width: 100%; height: 220px; object-fit: cover; object-position: top center; display: block; transition: transform 0.4s ease; }
+   .elder-card:hover .elder-img-wrap img { transform: scale(1.05); }
+   .elder-placeholder { width: 100%; height: 220px; background: var(--light-gray); display: flex; align-items: center; justify-content: center; font-size: 52px; color: #D1D5DB; }
+   .elder-info { padding: 18px 20px; }
+   .elder-info h4 { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--navy-dark); margin: 0 0 5px; line-height: 1.3; }
+   .elder-info p { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin: 0 !important; }
+
+   /* SERMON */
+   .sermon-section { padding: var(--section-v) 0; background: var(--navy-dark); }
+   .sermon-section .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+   .sermon-header { text-align: center; margin-bottom: 48px; }
+   .sermon-header .section-tag { display: block; margin-bottom: 12px; }
+   .sermon-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 42px); font-weight: 700; color: var(--white); margin: 0; }
+   .sermon-card { display: grid; grid-template-columns: 460px 1fr; gap: 0; align-items: stretch; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); overflow: hidden; }
+   .sermon-thumbnail { position: relative; overflow: hidden; flex-shrink: 0; }
+   .sermon-thumbnail img { width: 100%; height: 100%; min-height: 360px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+   .sermon-card:hover .sermon-thumbnail img { transform: scale(1.04); }
+   .sermon-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 72px; height: 72px; border-radius: 50%; background: var(--gold); color: var(--navy-dark); display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; padding-left: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: transform 0.25s ease, background 0.25s ease; border: none; }
+   .sermon-play-btn:hover { transform: translate(-50%, -50%) scale(1.12); background: var(--white); }
+   .sermon-duration { position: absolute; bottom: 16px; right: 16px; background: rgba(0,0,0,0.72); color: var(--white); font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 100px; display: flex; align-items: center; gap: 6px; }
+   .sermon-info { padding: 44px 48px; display: flex; flex-direction: column; justify-content: center; }
+   .sermon-series { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+   .sermon-info h3 { font-family: var(--font-display); font-size: clamp(22px, 2.5vw, 32px); font-weight: 700; color: var(--white); line-height: 1.2; margin: 0 0 24px; }
+   .sermon-meta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+   .sermon-meta-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.65); }
+   .sermon-meta-icon { color: var(--gold); font-size: 13px; flex-shrink: 0; }
+   .sermon-desc { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.68); margin-bottom: 32px !important; }
+   .sermon-actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+   .btn-sermon-play { background: var(--gold); color: var(--navy-dark); padding: 14px 28px; font-size: 14px; font-weight: 700; border-radius: var(--radius-sm); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.25s ease; }
+   .btn-sermon-play:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+   .btn-sermon-all { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s ease; }
+   .btn-sermon-all:hover { color: var(--gold); }
+
+   /* CHOIRS */
+   .choirs-section { padding: var(--section-v) 0; background: var(--white); }
+   .choirs-section .container { max-width: var(--container); margin: 0 auto; padding: 0 40px; }
+   .choirs-header { text-align: center; margin-bottom: 56px; }
+   .choirs-header h2 { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 42px); font-weight: 700; color: var(--navy-dark); margin: 0 0 16px; }
+   .choirs-header p { font-size: 16px; color: var(--mid-gray); }
+
+   /* Worship Team Card */
+   .worship-team-card {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       gap: 0;
+       background: var(--off-white);
+       border-radius: var(--radius-lg);
+       overflow: hidden;
+       margin-bottom: 64px;
+       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+       border: 1px solid var(--light-gray);
+   }
+
+   .worship-team-image {
+       overflow: hidden;
+       background: var(--light-gray);
+   }
+
+   .worship-team-image img {
+       width: 100%;
+       height: 100%;
+       min-height: 400px;
+       object-fit: cover;
+       object-position: center top;
+       display: block;
+       transition: transform 0.4s ease;
+   }
+
+   .worship-team-card:hover .worship-team-image img {
+       transform: scale(1.03);
+   }
+
+   .worship-team-info { padding: 40px 48px; display: flex; flex-direction: column; justify-content: center; }
+   .worship-team-info h3 { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--navy-dark); margin: 0 0 16px; }
+   .worship-team-info p { font-size: 15px; line-height: 1.8; color: var(--text-body); margin-bottom: 24px; }
+   .worship-team-stats { display: flex; gap: 32px; }
+   .worship-stat { display: flex; flex-direction: column; gap: 4px; }
+   .worship-stat-number { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--gold); }
+   .worship-stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--mid-gray); }
+   .choirs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+   .choir-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); border: 1px solid var(--light-gray); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+   .choir-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(30, 58, 138, 0.12); }
+   .choir-image { position: relative; overflow: hidden; aspect-ratio: 4/3; }
+   .choir-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+   .choir-card:hover .choir-image img { transform: scale(1.05); }
+   .choir-founded { position: absolute; bottom: 12px; right: 12px; background: var(--gold); color: var(--navy-dark); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
+   .choir-info { padding: 20px; }
+   .choir-info h4 { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--navy-dark); margin: 0 0 8px; }
+   .choir-info p { font-size: 13px; line-height: 1.6; color: var(--mid-gray); margin: 0; }
+
+   /* RESPONSIVE */
    @media (max-width: 1024px) {
-     .welcome-grid, .services-grid, .pastor-card,
-     .sunday-school-grid, .ladies-grid { grid-template-columns: 1fr; gap: 48px; padding: 0 32px; }
+     .welcome-grid, .services-grid, .pastor-card, .sunday-school-grid, .ladies-grid { grid-template-columns: 1fr; gap: 48px; padding: 0 32px; }
      .youth-grid { grid-template-columns: 1fr; gap: 48px; padding: 0 32px; }
      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 32px; }
      .stats-grid { grid-template-columns: repeat(2,1fr); }
@@ -736,46 +417,72 @@
      .youth-leader-img-wrap img { height: 300px; }
      .ladies-img-wrap img { height: 360px; }
      .ministry-photo-strip { grid-template-columns: repeat(3,1fr); }
+     .welcome-intro-grid { grid-template-columns: 1fr; gap: 48px; padding: 0 32px; margin-bottom: 56px; }
+     .welcome-image { min-height: 360px; height: 360px; }
+     .welcome-image::before { display: none; }
+     .pastor-featured-card { grid-template-columns: 280px 1fr; }
+     .pastor-featured-img img { min-height: 300px; }
+     .pastor-featured-content { padding: 32px 32px; }
+     .elders-grid { grid-template-columns: repeat(2, 1fr); }
+     .leadership-block { padding-left: 32px; padding-right: 32px; }
+     .sermon-card { grid-template-columns: 340px 1fr; }
+     .sermon-thumbnail img { min-height: 100%; }
+     .sermon-section .container { padding: 0 32px; }
+     .choirs-grid { grid-template-columns: repeat(2, 1fr); }
+     .worship-team-card { grid-template-columns: 1fr; }
+     .worship-team-info { padding: 32px; }
+     .mv-grid { grid-template-columns: 1fr; padding: 0 32px; }
    }
-   
+
    @media (max-width: 768px) {
      :root { --section-v: 64px; }
-   
      .hero-content { padding: 0 24px; max-width: 100%; }
      .hero-text h1 { font-size: 30px; }
-     .hero-text p  { font-size: 15px; }
+     .hero-text p { font-size: 15px; }
      .hero-buttons { flex-direction: column; }
-     .hero-arrow   { display: none; }
-   
-     .welcome-grid, .services-grid, .sunday-school-grid,
-     .youth-grid, .ladies-grid { padding: 0 24px; gap: 36px; }
-   
-     .welcome-image img, .services-image img,
-     .sunday-school-image img, .ladies-img-wrap img { height: 260px; }
-   
+     .hero-arrow { display: none; }
+     .welcome-grid, .services-grid, .sunday-school-grid, .youth-grid, .ladies-grid { padding: 0 24px; gap: 36px; }
+     .welcome-image img, .services-image img, .sunday-school-image img, .ladies-img-wrap img { height: 260px; }
      .welcome-image::before { display: none; }
      .mission-box { padding: 32px 24px; }
-   
      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 16px; }
      .stat-number { font-size: 40px; }
-   
      .mission-content, .events-section .container { padding: 0 24px; }
      .pastor-card { padding: 0 24px; }
      .events-grid { grid-template-columns: 1fr; }
      .youth-activities { grid-template-columns: 1fr; }
-     .sunday-school-values { flex-direction: column; }
      .ladies-program-grid { grid-template-columns: 1fr; }
      .ladies-stat-cards { grid-template-columns: repeat(3,1fr); }
      .schedule-card-day { min-width: 80px; font-size: 10px; }
      .schedule-card-body { flex-direction: column; align-items: flex-start; gap: 4px; }
      .ss-image-badge { bottom: 16px; left: 16px; padding: 12px 16px; }
      .ss-badge-number { font-size: 30px; }
-   
      .ministry-photo-strip { grid-template-columns: 1fr 1fr; }
-   
      .footer-grid { grid-template-columns: 1fr; gap: 32px; padding: 0 24px; }
      .footer-bottom { flex-direction: column; text-align: center; padding: 20px 24px; }
-   
      .service-bar-inner { flex-direction: column; align-items: center; }
      .service-bar-item { width: 100%; padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+     .welcome-intro-grid { padding: 0 24px; gap: 32px; }
+     .welcome-image { min-height: 280px; height: 280px; }
+     .pastor-featured-card { grid-template-columns: 1fr; }
+     .pastor-featured-img img { min-height: 280px; height: 280px; }
+     .pastor-featured-img::after { display: none; }
+     .pastor-featured-content { padding: 24px 24px; }
+     .elders-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+     .elder-img-wrap img, .elder-placeholder { height: 160px; }
+     .elder-placeholder { font-size: 36px; }
+     .leadership-block { padding-left: 24px; padding-right: 24px; }
+     .sermon-card { grid-template-columns: 1fr; }
+     .sermon-thumbnail img { min-height: 260px; height: 260px; }
+     .sermon-info { padding: 28px 24px; }
+     .sermon-section .container { padding: 0 24px; }
+     .choirs-section .container { padding: 0 24px; }
+     .choirs-grid { grid-template-columns: 1fr 1fr; }
+     .worship-team-card { grid-template-columns: 1fr; }
+     .worship-team-info { padding: 24px; }
+     .worship-team-stats { flex-wrap: wrap; gap: 16px; }
+     .worship-team-info h3 { font-size: 22px; }
+     .mv-grid { padding: 0 24px; }
+     .mv-card-inner { padding: 32px 24px; }
+     .stats-section .container { padding: 0 24px; }
    }

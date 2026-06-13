@@ -1,3 +1,58 @@
+/* ============================================
+   FIX FOR SUNDAY SCHOOL VALUES - HORIZONTAL LAYOUT
+   ============================================ */
+   .sunday-school-values {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    margin-top: 24px !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.sunday-school-values .ss-value {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #FFFFFF !important;
+    border-radius: 50px !important;
+    padding: 8px 18px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #1E3A8A !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #E5E7EB !important;
+    width: auto !important;
+    min-width: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.sunday-school-values .ss-value svg {
+    flex-shrink: 0 !important;
+}
+
+.sunday-school-values .ss-value span {
+    display: inline !important;
+    white-space: nowrap !important;
+}
+
+/* Dark mode fix - keep cards white even in dark mode */
+@media (prefers-color-scheme: dark) {
+    .sunday-school-values .ss-value {
+        background: #FFFFFF !important;
+        color: #1E3A8A !important;
+        border: 1px solid #E5E7EB !important;
+    }
+    
+    .sunday-school-values .ss-value .ss-value-icon {
+        color: #F5C518 !important;
+    }
+}
 :root {
   --text: #6b6375;
   --text-h: #08060d;
