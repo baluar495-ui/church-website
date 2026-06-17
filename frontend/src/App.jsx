@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Sermons from './pages/sermons';
-import Events from './pages/Events';  // ← ADD THIS IMPORT
+import Events from './pages/Events';
+import Prayer from './pages/Prayer';
+import Giving from './pages/Giving';
+import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
@@ -14,25 +17,13 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/sermons" element={<Sermons />} />
-                    <Route path="/events" element={<Events />} />  {/* ← CHANGED: Now uses Events component */}
-                    <Route path="/prayer"  element={<ComingSoon title="Prière" />} />
-                    <Route path="/contact" element={<ComingSoon title="Contact" />} />
+                    <Route path="/events" element={<Events />} />
+                    <Route path="/prayer" element={<Prayer />} />
+                    <Route path="/giving" element={<Giving />} />
+                    <Route path="/contact" element={<Contact />} />
                 </Routes>
             </div>
         </Router>
-    );
-}
-
-function ComingSoon({ title }) {
-    return (
-        <div style={{
-            minHeight: '100vh', display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
-            background: '#0F2057', color: '#fff', fontFamily: 'Inter, sans-serif'
-        }}>
-            <h1 style={{ fontFamily: 'Playfair Display, Georgia, serif', fontSize: 'clamp(36px,5vw,64px)', color: '#F5C518', margin: '0 0 16px' }}>{title}</h1>
-            <p style={{ fontSize: 18, color: 'rgba(255,255,255,0.6)' }}>Page en cours de construction — revenez bientôt.</p>
-        </div>
     );
 }
 

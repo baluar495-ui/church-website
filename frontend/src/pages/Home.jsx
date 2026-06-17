@@ -35,19 +35,14 @@ import choirSmyrna from '../assets/images/Hero1.jpg';
 import pastorImage from '../assets/images/Lead pastor.jpg';
 
 // ============================================
-// PHOTO STRIP IMAGES (ADD YOUR PHOTOS HERE)
+// PHOTO STRIP IMAGES
 // ============================================
-// Sunday School Photo Strip (3 photos)
 import sundaySchoolPhoto1 from '../assets/images/SundaySchool5.jpg';
 import sundaySchoolPhoto2 from '../assets/images/Sunday 3.jpg';
 import sundaySchoolPhoto3 from '../assets/images/sunday4.jpg';
-
-// Youth Photo Strip (3 photos)
 import youthPhoto1 from '../assets/images/Youth.jpg';
 import youthPhoto2 from '../assets/images/Youth2.jpg';
 import youthPhoto3 from '../assets/images/Youth1.jpg';
-
-// Ladies Photo Strip (3 photos)
 import ladiesPhoto1 from '../assets/images/Ladies1.jpg';
 import ladiesPhoto2 from '../assets/images/Ladies.jpg';
 import ladiesPhoto3 from '../assets/images/Ladies Chairperson.jpg';
@@ -140,7 +135,7 @@ function Home() {
         { name: 'Pasteur Kalala',   role: 'Ancien — [Département]',  image: null },
     ];
 
-    /* ── PHOTO STRIPS - NOW USING LOCAL IMAGES ── */
+    /* ── PHOTO STRIPS ── */
     const sundaySchoolPhotos = [sundaySchoolPhoto1, sundaySchoolPhoto2, sundaySchoolPhoto3];
     const youthPhotos = [youthPhoto1, youthPhoto2, youthPhoto3];
     const ladiesPhotos = [ladiesPhoto1, ladiesPhoto2, ladiesPhoto3];
@@ -237,7 +232,7 @@ function Home() {
                         <span className="section-tag">Notre Communauté</span>
                         <h2>Bienvenue à Notre Famille</h2>
                         <p className="welcome-body">
-                            Vous êtes chez vous ici. Peu importe votre histoire, votre parcours ou vos questions — il y a une place pour vous dans notre communauté. Nous sommes une famille de croyants réunis par la foi en Jésus-Christ, déterminés à grandir ensemble, à servir et à rayonner l'amour de Dieu dans notre ville et au-delà.
+                            Vous êtes chez vous ici. Peu importe votre histoire ou votre parcours — il y a une place pour vous dans notre communauté. Nous sommes une famille de croyants réunis par la foi en Jésus-Christ, déterminés à grandir ensemble, à servir et à rayonner l'amour de Dieu.
                         </p>
                         <p className="welcome-body">
                             Chaque dimanche, nous nous retrouvons pour adorer, écouter la Parole et nous encourager mutuellement. Que vous veniez pour la première fois ou que vous cherchiez une maison spirituelle, nous vous accueillons à bras ouverts.
@@ -247,8 +242,8 @@ function Home() {
                             <ul>
                                 <li><strong>Arrivée :</strong> Venez comme vous êtes — tenue correcte appréciée</li>
                                 <li><strong>Accueil :</strong> Notre équipe vous reçoit dès l'entrée</li>
-                                <li><strong>Enfants :</strong> École du Dimanche disponible pendant le culte</li>
-                                <li><strong>Durée :</strong> Environ 2 heures de louange, Parole et fellowship</li>
+                                <li><strong>Enfants :</strong> École du Dimanche disponible</li>
+                                <li><strong>Durée :</strong> Environ 2 heures de louange et Parole</li>
                             </ul>
                         </div>
                         <div className="welcome-features">
@@ -274,7 +269,7 @@ function Home() {
                         <p>Des serviteurs de Dieu dévoués qui guident notre église avec sagesse et amour.</p>
                     </div>
 
-                    {/* Pastor Principal — original full design */}
+                    {/* Pastor Principal */}
                     <div className="pastor-featured-card">
                         <div className="pastor-featured-img">
                             <img src={leadershipTeam[0].image} alt={leadershipTeam[0].name} />
@@ -520,7 +515,6 @@ function Home() {
                         <p>Des coeurs unis pour exalter le nom de Jésus à travers le chant et la musique</p>
                     </motion.div>
 
-                    {/* Praise & Worship Team - Main Card */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -553,7 +547,6 @@ function Home() {
                         </div>
                     </motion.div>
 
-                    {/* 4 Choirs Grid */}
                     <div className="choirs-grid">
                         {[
                             {
@@ -607,7 +600,6 @@ function Home() {
                 <div className="container">
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mission-vision-wrapper">
                         <div className="mv-grid">
-                            {/* Vision Card */}
                             <div className="mv-card mv-card--vision">
                                 <div className="mv-card-inner">
                                     <span className="mv-label">Notre Vision</span>
@@ -617,7 +609,6 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            {/* Mission Card */}
                             <div className="mv-card mv-card--mission">
                                 <div className="mv-card-inner">
                                     <span className="mv-label">Notre Mission</span>
@@ -634,7 +625,7 @@ function Home() {
                 </div>
             </section>
 
-            {/* STATS SECTION - Keep separate */}
+            {/* STATS SECTION */}
             <section className="stats-section">
                 <div className="container">
                     <div className="stats-grid">
@@ -712,7 +703,7 @@ function Home() {
                         <div className="footer-col footer-contact">
                             <h4>Nous Trouver</h4>
                             <ul>
-                                <li><FaMapMarkerAlt className="footer-contact-icon" /><span>Goma, République Démocratique du Congo</span></li>
+                                <li><FaMapMarkerAlt className="footer-contact-icon" /><span>Bukavu, République Démocratique du Congo</span></li>
                                 <li><svg className="footer-contact-icon" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>+243 977 103 630</span></li>
                                 <li><svg className="footer-contact-icon" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><span>contact@cepacpenuel.org</span></li>
                                 <li><FaClock className="footer-contact-icon" /><span>Dimanche : 8h30 – 14h30</span></li>

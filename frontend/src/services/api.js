@@ -19,4 +19,14 @@ export const eventsAPI = {
     getUpcoming: () => api.get('/events/upcoming'),
 };
 
+export const prayerAPI = {
+    submit: (data) => api.post('/prayer', data),
+    getPublic: () => api.get('/prayer/public'),
+    incrementPrayer: (id) => api.put(`/prayer/${id}/pray`),  // ← ADD THIS
+};
+// ADD THIS - Contact API
+export const contactAPI = {
+    submit: (data) => api.post('/contact', data),
+};
+
 export default api;

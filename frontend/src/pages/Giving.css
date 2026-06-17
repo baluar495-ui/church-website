@@ -1,0 +1,452 @@
+/* ============================================
+   GIVING PAGE - 8ème CEPAC PENUEL
+   ============================================ */
+
+/* Hero Section */
+.giving-hero {
+    position: relative;
+    min-height: 40vh;
+    background: linear-gradient(135deg, #1E3A8A 0%, #0F2057 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.giving-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 50%, rgba(245, 197, 24, 0.15) 0%, transparent 70%);
+}
+
+.giving-hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 80px 20px;
+}
+
+.giving-hero-icon {
+    font-size: 64px;
+    color: #FFD700;
+    margin-bottom: 24px;
+}
+
+.giving-hero-content h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 56px;
+    font-weight: 800;
+    color: #FFD700;
+    margin: 0 0 16px;
+}
+
+.giving-hero-content p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Introduction */
+.giving-intro {
+    padding: 80px 0;
+    background: white;
+}
+
+.giving-intro .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.giving-intro-content {
+    text-align: center;
+}
+
+.intro-icon {
+    font-size: 48px;
+    color: #FFD700;
+    margin-bottom: 24px;
+}
+
+.giving-intro-content h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin: 0 0 16px;
+}
+
+.giving-intro-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #6B7280;
+    margin-bottom: 16px;
+}
+
+.giving-intro-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Giving Methods */
+.giving-methods {
+    padding: 80px 0;
+    background: #F8F7F4;
+}
+
+.giving-methods .container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E3A8A;
+    text-align: center;
+    margin: 0 0 12px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: #6B7280;
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.methods-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.method-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.method-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.method-card.active {
+    border-color: #FFD700;
+    box-shadow: 0 8px 24px rgba(245, 197, 24, 0.2);
+}
+
+.method-icon {
+    font-size: 40px;
+    color: #FFD700;
+    margin-bottom: 16px;
+}
+
+.method-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin: 0 0 8px;
+}
+
+.method-card p {
+    font-size: 14px;
+    color: #6B7280;
+    margin: 0;
+}
+
+/* Giving Details */
+.giving-details {
+    padding: 60px 0 80px;
+    background: white;
+}
+
+.giving-details .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.details-wrapper {
+    background: #F8F7F4;
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid #E5E4E7;
+}
+
+.details-content h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin: 0 0 8px;
+}
+
+.details-content > p {
+    font-size: 14px;
+    color: #6B7280;
+    margin-bottom: 24px;
+}
+
+.details-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.info-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E3A8A;
+    min-width: 140px;
+}
+
+.info-value {
+    font-size: 14px;
+    color: #1a1a1a;
+    flex: 1;
+}
+
+.btn-copy {
+    background: #FFD700;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: #1E3A8A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn-copy:hover {
+    background: #F5C518;
+    transform: scale(1.05);
+}
+
+.giving-note {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #FFD70015;
+    border-left: 4px solid #FFD700;
+    border-radius: 8px;
+}
+
+.giving-note p {
+    font-size: 14px;
+    color: #6B7280;
+    margin: 0;
+}
+
+.giving-note strong {
+    color: #1E3A8A;
+}
+
+/* Impact Section */
+.giving-impact {
+    padding: 80px 0;
+    background: #1E3A8A;
+    color: white;
+}
+
+.giving-impact .container {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.giving-impact h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    color: #FFD700;
+    margin: 0 0 48px;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.impact-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.impact-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.impact-icon {
+    font-size: 40px;
+    color: #FFD700;
+    margin-bottom: 16px;
+}
+
+.impact-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.impact-card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* CTA Section */
+.giving-cta {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #0F2057 0%, #1E3A8A 100%);
+    text-align: center;
+}
+
+.giving-cta .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.cta-icon {
+    font-size: 48px;
+    color: #FFD700;
+    margin-bottom: 24px;
+}
+
+.giving-cta h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #FFD700;
+    margin: 0 0 16px;
+}
+
+.giving-cta p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 32px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.giving-cta .btn-primary {
+    background: #FFD700;
+    color: #1E3A8A;
+    border: none;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.giving-cta .btn-primary:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .methods-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .giving-hero-content h1 {
+        font-size: 36px;
+    }
+    
+    .giving-hero-content p {
+        font-size: 16px;
+    }
+    
+    .giving-intro .container,
+    .giving-methods .container,
+    .giving-details .container,
+    .giving-impact .container,
+    .giving-cta .container {
+        padding: 0 24px;
+    }
+    
+    .methods-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .details-wrapper {
+        padding: 24px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .info-label {
+        min-width: auto;
+    }
+    
+    .giving-cta h2 {
+        font-size: 28px;
+    }
+    
+    .giving-intro-content h2 {
+        font-size: 28px;
+    }
+    
+    .section-title {
+        font-size: 28px;
+    }
+}
+/* Details Icon */
+.details-icon {
+    color: #FFD700;
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.note-icon {
+    color: #FFD700;
+    margin-right: 8px;
+    font-size: 14px;
+}

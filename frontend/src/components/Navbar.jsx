@@ -21,6 +21,7 @@ function Navbar() {
         { path: '/sermons', label: 'Prédications' },
         { path: '/events', label: 'Événements' },
         { path: '/prayer', label: 'Prière' },
+        { path: '/giving', label: 'Offrandes' },
         { path: '/contact', label: 'Contact' },
     ];
 
@@ -29,7 +30,7 @@ function Navbar() {
             <div className="nav-container">
                 <Link to="/" className="nav-logo">
                     <FaChurch className="logo-icon" />
-                    8ème CEPAC PENUEL SWAHILOPHONE
+                    8ème CEPAC PENUEL
                 </Link>
 
                 <div className={`nav-menu ${isOpen ? 'active' : ''}`}>
@@ -43,7 +44,6 @@ function Navbar() {
                             {link.label}
                         </Link>
                     ))}
-                    <button className="btn-give">Offrandes</button>
                 </div>
 
                 <div className="hamburger" onClick={() => setIsOpen(!isOpen)}>

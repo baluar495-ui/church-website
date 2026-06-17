@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaSearch, FaFilter, FaTimes } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaSearch, FaFilter, FaTimes, FaWhatsapp, FaShareAlt, FaFacebook, FaTwitter, FaEnvelope, FaCopy, FaCheck } from 'react-icons/fa';
 import { eventsAPI } from '../services/api';
 import './Events.css';
 
@@ -8,10 +8,16 @@ function Events() {
     const [events, setEvents] = useState([]);
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedMonth, setSelectedMonth] = useState('all');
     const [selectedEventType, setSelectedEventType] = useState('all');
     const [showFilters, setShowFilters] = useState(false);
+    const [eventTypes, setEventTypes] = useState(['all']);
+    const [copySuccess, setCopySuccess] = useState(false);
+    const [shareMessage, setShareMessage] = useState('');
+    const [showSharePopup, setShowSharePopup] = useState(false);
+    const [currentEvent, setCurrentEvent] = useState(null);
 
     // Helper function to check if event is still visible (not passed for more than 1 day)
     const isEventVisible = (eventDate) => {
@@ -24,133 +30,71 @@ function Events() {
         
         // If event passed, check if within 1 day
         const daysPassed = Math.floor((today - event) / oneDayInMs);
-        return daysPassed < 1; // Event disappears after 1 full day
+        return daysPassed < 1;
     };
 
-    // Get unique months from visible events
+    // Get unique months from events (only from visible events)
     const getMonths = () => {
-        const months = events
-            .filter(event => isEventVisible(event.event_date))
-            .map(event => {
-                const date = new Date(event.event_date);
-                return date.toLocaleString('fr', { month: 'long', year: 'numeric' });
-            });
+        const visibleEvents = events.filter(event => isEventVisible(event.event_date));
+        const months = visibleEvents.map(event => {
+            const date = new Date(event.event_date);
+            return date.toLocaleString('fr', { month: 'long', year: 'numeric' });
+        });
         return ['all', ...new Set(months)];
     };
 
-    const eventTypes = ['all', 'Culte', 'Étude Biblique', 'Prière', 'Conférence', 'Jeunesse', 'Femmes', 'École du Dimanche'];
+    // Fetch events from real database
+    const fetchEvents = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await eventsAPI.getAll();
+            const eventsData = res.data.data || [];
+            
+            // Store all events
+            setEvents(eventsData);
+            
+            // Extract unique event types from database
+            const uniqueTypes = ['all', ...new Set(eventsData.map(event => event.type).filter(Boolean))];
+            setEventTypes(uniqueTypes);
+            
+            // Apply visibility filter and sorting
+            let visibleEvents = eventsData.filter(event => isEventVisible(event.event_date));
+            visibleEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+            setFilteredEvents(visibleEvents);
+            
+        } catch (error) {
+            console.error('Error fetching events:', error);
+            setError('Impossible de charger les événements. Veuillez réessayer plus tard.');
+            setEvents([]);
+            setFilteredEvents([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    // Initial fetch
     useEffect(() => {
-        const fetchEvents = async () => {
-            try {
-                const res = await eventsAPI.getAll();
-                const eventsData = res.data.data || [];
-                setEvents(eventsData);
-                
-                // Apply visibility filter and sorting
-                let visibleEvents = eventsData.filter(event => isEventVisible(event.event_date));
-                
-                // Sort: upcoming events first (closest date first)
-                visibleEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
-                
-                setFilteredEvents(visibleEvents);
-            } catch (error) {
-                console.error('Error fetching events:', error);
-                // Demo data
-                const demoData = [
-                    {
-                        id: 1,
-                        title: 'Culte Principal du Dimanche',
-                        description: 'Rejoignez-nous pour un moment puissant de louange, d\'adoration et d\'enseignement de la Parole de Dieu.',
-                        event_date: '2026-06-16',
-                        event_time: '10:00',
-                        location: 'Temple Central, Goma',
-                        type: 'Culte'
-                    },
-                    {
-                        id: 2,
-                        title: 'Étude Biblique Hebdomadaire',
-                        description: 'Étude approfondie de la Parole de Dieu en petit groupe. Thème: La Foi qui vainc le monde.',
-                        event_date: '2026-06-18',
-                        event_time: '19:00',
-                        location: 'Salle de Fellowship',
-                        type: 'Étude Biblique'
-                    },
-                    {
-                        id: 3,
-                        title: 'Nuit de Prière',
-                        description: 'Une nuit spéciale dédiée à la prière et à l\'intercession pour notre église, notre ville et notre nation.',
-                        event_date: '2026-06-20',
-                        event_time: '22:00',
-                        location: 'Temple Central',
-                        type: 'Prière'
-                    },
-                    {
-                        id: 4,
-                        title: 'Conférence des Jeunes',
-                        description: 'Un week-end de formation et d\'édification pour les jeunes. Thème: "Émergence d\'une génération de feu".',
-                        event_date: '2026-06-27',
-                        event_time: '09:00',
-                        location: 'Auditorium de l\'Église',
-                        type: 'Jeunesse'
-                    },
-                    {
-                        id: 5,
-                        title: 'Culte des Femmes',
-                        description: 'Un moment spécial pour les femmes: prière, partage et encouragement mutuel.',
-                        event_date: '2026-06-25',
-                        event_time: '14:00',
-                        location: 'Salle des Femmes',
-                        type: 'Femmes'
-                    },
-                    // This event is from yesterday - will disappear after 1 day
-                    {
-                        id: 6,
-                        title: 'Culte Spécial du Lundi',
-                        description: 'Un culte spécial pour débuter la semaine dans la présence de Dieu.',
-                        event_date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // Yesterday's date
-                        event_time: '18:00',
-                        location: 'Temple Central',
-                        type: 'Culte'
-                    },
-                    // This event is from 2 days ago - should be hidden (more than 1 day passed)
-                    {
-                        id: 7,
-                        title: 'Réunion des Anciens',
-                        description: 'Réunion mensuelle des anciens de l\'église.',
-                        event_date: new Date(Date.now() - 172800000).toISOString().split('T')[0], // 2 days ago
-                        event_time: '09:00',
-                        location: 'Salle de Conférence',
-                        type: 'Conférence'
-                    }
-                ];
-                
-                // Apply visibility filter (events older than 1 day will be hidden)
-                let visibleEvents = demoData.filter(event => isEventVisible(event.event_date));
-                
-                // Sort: upcoming events first (closest date first)
-                visibleEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
-                
-                setEvents(demoData);
-                setFilteredEvents(visibleEvents);
-                setSpeakers([]);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchEvents();
     }, []);
 
-    // Filter events based on search and filters
+    // Filter events based on search, month, and type
     useEffect(() => {
+        if (!events.length) {
+            setFilteredEvents([]);
+            return;
+        }
+        
+        // Start with all visible events
         let filtered = events.filter(event => isEventVisible(event.event_date));
         
-        // Search filter
-        if (searchTerm) {
+        // Search filter (title, description, location)
+        if (searchTerm.trim() !== '') {
+            const term = searchTerm.toLowerCase();
             filtered = filtered.filter(event =>
-                event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                event.location.toLowerCase().includes(searchTerm.toLowerCase())
+                (event.title && event.title.toLowerCase().includes(term)) ||
+                (event.description && event.description.toLowerCase().includes(term)) ||
+                (event.location && event.location.toLowerCase().includes(term))
             );
         }
         
@@ -167,13 +111,14 @@ function Events() {
             filtered = filtered.filter(event => event.type === selectedEventType);
         }
         
-        // Sort by date (upcoming first - closest date to today)
+        // Sort by date (upcoming first)
         filtered.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
         
         setFilteredEvents(filtered);
     }, [searchTerm, selectedMonth, selectedEventType, events]);
 
     const formatDate = (dateString) => {
+        if (!dateString) return { day: '?', month: '?', full: 'Date inconnue' };
         const date = new Date(dateString);
         return {
             day: date.getDate(),
@@ -190,11 +135,83 @@ function Events() {
         return new Date(dateString).toDateString() === new Date().toDateString();
     };
 
+    // Add to Calendar function
+    const addToCalendar = (event) => {
+        const date = new Date(event.event_date);
+        const endDate = new Date(date);
+        endDate.setHours(endDate.getHours() + 2);
+        
+        const start = date.toISOString().replace(/-|:|\.\d+/g, '');
+        const end = endDate.toISOString().replace(/-|:|\.\d+/g, '');
+        
+        const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${start}/${end}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+        
+        window.open(googleCalendarUrl, '_blank');
+    };
+
+    // Generate share message
+    const generateShareMessage = (event) => {
+        const websiteUrl = window.location.origin + '/events';
+        const formattedDate = formatDate(event.event_date).full;
+        return `📅 ${event.title}\n📍 ${event.location}\n⏰ ${formattedDate} à ${event.event_time}\n\n📖 ${event.description}\n\n🔗 ${websiteUrl}\n\nRejoignez-nous à la 8ème CEPAC PENUEL SWAHILOPHONE !`;
+    };
+
+    // Copy to clipboard
+    const copyToClipboard = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 3000);
+        } catch (err) {
+            // Fallback for older browsers
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 3000);
+        }
+    };
+
+    // Share with multiple platforms
+    const shareEvent = (event, platform) => {
+        const fullMessage = generateShareMessage(event);
+        
+        if (platform === 'facebook') {
+            // Open popup with the message to copy
+            setCurrentEvent(event);
+            setShareMessage(fullMessage);
+            setShowSharePopup(true);
+            return;
+        }
+        
+        const shareUrls = {
+            whatsapp: `https://wa.me/?text=${encodeURIComponent(fullMessage)}`,
+            twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullMessage.substring(0, 280))}`,
+            email: `mailto:?subject=${encodeURIComponent(event.title)}&body=${encodeURIComponent(fullMessage)}`
+        };
+        
+        if (shareUrls[platform]) {
+            window.open(shareUrls[platform], '_blank');
+        }
+    };
+
     if (loading) {
         return (
             <div className="events-loading">
                 <div className="spinner"></div>
                 <p>Chargement des événements...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="events-error">
+                <p>{error}</p>
+                <button onClick={fetchEvents} className="btn-retry">Réessayer</button>
             </div>
         );
     }
@@ -224,7 +241,7 @@ function Events() {
                             <FaSearch className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Rechercher un événement..."
+                                placeholder="Rechercher un événement (titre, description, lieu)..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
@@ -248,9 +265,10 @@ function Events() {
                             <div className="filter-group">
                                 <label>Période</label>
                                 <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-                                    <option value="all">Tous les mois</option>
                                     {getMonths().map((month, index) => (
-                                        month !== 'all' && <option key={index} value={month}>{month}</option>
+                                        <option key={index} value={month}>
+                                            {month === 'all' ? 'Tous les mois' : month}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
@@ -258,7 +276,9 @@ function Events() {
                                 <label>Type d'événement</label>
                                 <select value={selectedEventType} onChange={(e) => setSelectedEventType(e.target.value)}>
                                     {eventTypes.map((type, index) => (
-                                        <option key={index} value={type}>{type === 'all' ? 'Tous' : type}</option>
+                                        <option key={index} value={type}>
+                                            {type === 'all' ? 'Tous les types' : type}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
@@ -267,14 +287,26 @@ function Events() {
                 </div>
             </section>
 
+            {/* Results Count */}
+            <div className="events-results-count">
+                <div className="container">
+                    <p>{filteredEvents.length} événement(s) trouvé(s)</p>
+                </div>
+            </div>
+
             {/* Events List */}
             <section className="events-list-section">
                 <div className="container">
                     {filteredEvents.length === 0 ? (
                         <div className="no-events">
-                            <p>Aucun événement à venir pour le moment.</p>
-                            <button onClick={() => { setSearchTerm(''); setSelectedMonth('all'); setSelectedEventType('all'); }}>
-                                Voir tous les événements
+                            <p>Aucun événement trouvé pour ces critères.</p>
+                            <button onClick={() => { 
+                                setSearchTerm(''); 
+                                setSelectedMonth('all'); 
+                                setSelectedEventType('all');
+                                setShowFilters(false);
+                            }}>
+                                Réinitialiser les filtres
                             </button>
                         </div>
                     ) : (
@@ -329,12 +361,32 @@ function Events() {
                                             </div>
                                             
                                             <div className="event-actions">
-                                                <button className="btn-add-calendar">
-                                                    Ajouter au calendrier
+                                                <button 
+                                                    className="btn-add-calendar"
+                                                    onClick={() => addToCalendar(event)}
+                                                >
+                                                    <FaCalendarAlt /> Ajouter au calendrier
                                                 </button>
-                                                <button className="btn-partager">
-                                                    Partager
-                                                </button>
+                                                
+                                                <div className="share-dropdown">
+                                                    <button className="btn-share">
+                                                        <FaShareAlt /> Partager
+                                                    </button>
+                                                    <div className="share-dropdown-content">
+                                                        <button onClick={() => shareEvent(event, 'whatsapp')}>
+                                                            <FaWhatsapp color="#25D366" /> WhatsApp
+                                                        </button>
+                                                        <button onClick={() => shareEvent(event, 'facebook')}>
+                                                            <FaFacebook color="#1877F2" /> Facebook
+                                                        </button>
+                                                        <button onClick={() => shareEvent(event, 'twitter')}>
+                                                            <FaTwitter color="#1DA1F2" /> X (Twitter)
+                                                        </button>
+                                                        <button onClick={() => shareEvent(event, 'email')}>
+                                                            <FaEnvelope color="#666" /> Email
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -350,9 +402,37 @@ function Events() {
                 <div className="container">
                     <h2>Vous organisez un événement?</h2>
                     <p>Contactez-nous pour faire annoncer votre événement dans notre église</p>
-                    <button className="btn-primary">Contacter l'équipe</button>
+                    <button className="btn-primary" onClick={() => window.location.href = '/contact'}>
+                        Contacter l'équipe
+                    </button>
                 </div>
             </section>
+
+            {/* Share Popup for Facebook */}
+            {showSharePopup && currentEvent && (
+                <div className="share-popup-overlay" onClick={() => setShowSharePopup(false)}>
+                    <div className="share-popup" onClick={(e) => e.stopPropagation()}>
+                        <button className="share-popup-close" onClick={() => setShowSharePopup(false)}>
+                            <FaTimes />
+                        </button>
+                        <h3>Partager sur Facebook</h3>
+                        <p>Copiez le message ci-dessous et collez-le dans Facebook :</p>
+                        <div className="share-message-box">
+                            <pre>{shareMessage}</pre>
+                        </div>
+                        <button 
+                            className={`btn-copy ${copySuccess ? 'copied' : ''}`}
+                            onClick={() => copyToClipboard(shareMessage)}
+                        >
+                            {copySuccess ? <FaCheck /> : <FaCopy />}
+                            {copySuccess ? ' Copié !' : ' Copier le message'}
+                        </button>
+                        <p className="share-popup-hint">
+                            <small>📌 Envoyez ce message à vos amis sur Facebook Messenger ou partagez-le sur votre timeline.</small>
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
