@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlay, FaCalendarAlt, FaMicrophone, FaSearch } from 'react-icons/fa';
 import { sermonsAPI } from '../services/api';
-import './Sermons.css';
+import './sermons.css';
 
 function Sermons() {
     const [sermons, setSermons] = useState([]);
