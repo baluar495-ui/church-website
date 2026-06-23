@@ -28,5 +28,9 @@ export const prayerAPI = {
 export const contactAPI = {
     submit: (data) => api.post('/contact', data),
 };
-
+// ADD THIS - Leadership API
+export const leadershipAPI = {
+    getAll: () => api.get('/leadership'),
+    getById: (id) => api.get(`/leadership/${id}`),
+};
 export default api;

@@ -4,9 +4,9 @@ import {
     FaPlay, FaCalendarAlt, FaMapMarkerAlt, FaUserFriends,
     FaHandsHelping, FaHeart, FaBible, FaChild, FaStar,
     FaBook, FaFire, FaFemale, FaPray, FaChurch, FaClock,
-    FaChevronLeft, FaChevronRight, FaMicrophone, FaHeadphones
+    FaChevronLeft, FaChevronRight, FaMicrophone, FaHeadphones, FaDoorOpen, FaHands
 } from 'react-icons/fa';
-import { eventsAPI } from '../services/api';
+import { eventsAPI, leadershipAPI } from '../services/api';
 import './Home.css';
 
 // ============================================
@@ -31,8 +31,15 @@ import choirUjasiri from '../assets/images/Ladies.jpg';
 import choirUfunuo from '../assets/images/Ufunuochoir.jpg';
 import choirSmyrna from '../assets/images/Hero1.jpg';
 
-// Leadership Images
+// Leadership Images (keep these for fallback)
 import pastorImage from '../assets/images/Lead pastor.jpg';
+import pastorImage1 from '../assets/images/Justin.jpg';
+import pastorImage2 from '../assets/images/Nguzo.jpg';
+import pastorImage3 from '../assets/images/Pastor Pierre.jpg';
+import pastorImage4 from '../assets/images/Bonheur.jpg';
+import pastorImage5 from '../assets/images/Mwililikwa.jpg';
+import pastorImage6 from '../assets/images/Ilundu.jpg';
+import pastorImage7 from '../assets/images/Wasolu.jpg';
 
 // ============================================
 // PHOTO STRIP IMAGES
@@ -46,6 +53,24 @@ import youthPhoto3 from '../assets/images/Youth1.jpg';
 import ladiesPhoto1 from '../assets/images/Ladies1.jpg';
 import ladiesPhoto2 from '../assets/images/Ladies.jpg';
 import ladiesPhoto3 from '../assets/images/Ladies Chairperson.jpg';
+
+// ============================================
+// LEADERSHIP IMAGE MAPPING (Option 2)
+// ============================================
+const leadershipImageMap = {
+    '/images/Lead pastor.jpg': pastorImage,
+    '/images/Justin.jpg': pastorImage1,
+    '/images/Nguzo.jpg': pastorImage2,
+    '/images/Pastor Pierre.jpg': pastorImage3,
+    '/images/Bonheur.jpg': pastorImage4,
+    '/images/Mwililikwa.jpg': pastorImage5,
+    '/images/Ilundu.jpg': pastorImage6,
+    '/images/Wasolu.jpg': pastorImage7,
+    // Alternative paths if the database uses different naming
+    '/images/Mwililikwa.JPG': pastorImage5,
+    '/images/Ilundu.JPG': pastorImage6,
+    '/images/Wasolu.JPG': pastorImage7,
+};
 
 /* ── Animated counter ── */
 function AnimatedCounter({ target, suffix = '', duration = 2 }) {
@@ -63,6 +88,8 @@ function Home() {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [leadershipTeam, setLeadershipTeam] = useState([]);
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false); // <-- ADD THIS
 
     const heroSlides = [
         {
@@ -98,6 +125,36 @@ function Home() {
         fetchEvents();
     }, []);
 
+    // Fetch leadership from API
+    useEffect(() => {
+        const fetchLeadership = async () => {
+            try {
+                const res = await leadershipAPI.getAll();
+                setLeadershipTeam(res.data.data || []);
+            } catch (error) {
+                console.error('Error fetching leadership:', error);
+                // Fallback hardcoded data with correct image_url
+                setLeadershipTeam([
+                    {
+                        name: 'Dr. Rév. Past. Batuvanwa Wilondja Imani Matabishi',
+                        role: 'Pasteur Principal',
+                        image_url: '/images/Lead pastor.jpg',
+                        highlight: true,
+                    },
+                    { name: 'Pasteur Justin Muziko', role: 'Ancien - Comptable', image_url: '/images/Justin.jpg' },
+                    { name: 'Pasteur Mwililikwa', role: 'Ancien - Cassier', image_url: '/images/Mwililikwa.jpg' },
+                    { name: 'Pasteur Nguzo Philippe', role: 'Ancien - Enseignement et vie de l\'Église', image_url: '/images/Nguzo.jpg' },
+                    { name: 'Pasteur Pierre Mukamba', role: 'Ancien - Enseignement et vie de l\'Église', image_url: '/images/Pastor Pierre.jpg' },
+                    { name: 'Pasteur Ilundu Bulambo', role: 'Ancien - [Département]', image_url: '/images/Ilundu.jpg' },
+                    { name: 'Pasteur Wasolu', role: 'Ancien - [Département]', image_url: '/images/Wasolu.jpg' },
+                    { name: 'Pasteur Kalala', role: 'Ancien - [Département]', image_url: null },
+                    { name: 'Pasteur Bonheur', role: 'Ancien - Comité de musique', image_url: '/images/Bonheur.jpg' },
+                ]);
+            }
+        };
+        fetchLeadership();
+    }, []);
+
     /* ── UPDATED WEEKLY SCHEDULE ── */
     const weeklySchedule = [
         { day: 'Lundi',     time: '16h00',         label: 'Étude Biblique — Jeunes',     color: 'navy' },
@@ -118,38 +175,76 @@ function Home() {
         { value: 5,   suffix: '',  label: 'Ministères Actifs',   icon: <FaHandsHelping /> },
     ];
 
-    /* ── LEADERSHIP TEAM ── */
-    const leadershipTeam = [
-        {
-            name: 'Dr. Rév. Past. Batuvanwa Wilondja Imani Matabishi',
-            role: 'Pasteur Principal',
-            image: pastorImage,
-            highlight: true,
-        },
-        { name: 'Pasteur Justin Muziko',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Mwililikwa',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Nguzo Philippe',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Pierre Mukamba',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Ilundu Bulambo',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Wasolu',   role: 'Ancien — [Département]',  image: null },
-        { name: 'Pasteur Kalala',   role: 'Ancien — [Département]',  image: null },
-    ];
-
     /* ── PHOTO STRIPS ── */
     const sundaySchoolPhotos = [sundaySchoolPhoto1, sundaySchoolPhoto2, sundaySchoolPhoto3];
     const youthPhotos = [youthPhoto1, youthPhoto2, youthPhoto3];
     const ladiesPhotos = [ladiesPhoto1, ladiesPhoto2, ladiesPhoto3];
 
-    /* ── LATEST SERMON ── */
-    const latestSermon = {
-        title: 'Marchez dans la Foi, Non par la Vue',
-        speaker: 'Dr. Rév. Past. Batuvanwa Wilondja Imani Matabishi',
-        date: '8 Juin 2025',
-        series: 'Série : Vivre par la Foi',
-        duration: '52 min',
-        thumbnail: heroSlide1,
+    // Sunday School Carousel state
+    const [ssCurrentIndex, setSsCurrentIndex] = useState(0);
+    const ssTotalImages = sundaySchoolPhotos.length;
+    const ssVisibleItems = 3;
+    const ssMaxIndex = Math.max(0, ssTotalImages - ssVisibleItems);
+
+    const ssNextImage = () => {
+        setSsCurrentIndex((prev) => Math.min(prev + 1, ssMaxIndex));
     };
 
+    const ssPrevImage = () => {
+        setSsCurrentIndex((prev) => Math.max(prev - 1, 0));
+    };
+
+    // Youth Carousel state
+    const [youthCurrentIndex, setYouthCurrentIndex] = useState(0);
+    const youthTotalImages = youthPhotos.length;
+    const youthVisibleItems = 3;
+    const youthMaxIndex = Math.max(0, youthTotalImages - youthVisibleItems);
+
+    const youthNextImage = () => {
+        setYouthCurrentIndex((prev) => Math.min(prev + 1, youthMaxIndex));
+    };
+
+    const youthPrevImage = () => {
+        setYouthCurrentIndex((prev) => Math.max(prev - 1, 0));
+    };
+
+    // Ladies Carousel state
+    const [ladiesCurrentIndex, setLadiesCurrentIndex] = useState(0);
+    const ladiesTotalImages = ladiesPhotos.length;
+    const ladiesVisibleItems = 3;
+    const ladiesMaxIndex = Math.max(0, ladiesTotalImages - ladiesVisibleItems);
+
+    const ladiesNextImage = () => {
+        setLadiesCurrentIndex((prev) => Math.min(prev + 1, ladiesMaxIndex));
+    };
+
+    const ladiesPrevImage = () => {
+        setLadiesCurrentIndex((prev) => Math.max(prev - 1, 0));
+    };
+
+    /* ── LATEST SERMON ── */
+    const latestSermon = {
+        title: '7 Secrets d\'une Prière Exaucée',
+        speaker: 'Dr. Rév. Past. Batuvanwa Wilondja Imani Matabishi',
+        date: '30 Septembre 2021',
+        series: 'Série : Vivre par la Foi',
+        duration: '34 min',
+        thumbnail: heroSlide1,
+        videoUrl: 'https://www.youtube.com/embed/AVT74mxa944'
+    };
+
+    // Helper function to get the correct image
+    const getLeadershipImage = (person) => {
+        if (!person.image_url) return null;
+        // Try exact match first, then fallback to case-insensitive search
+        const exactMatch = leadershipImageMap[person.image_url];
+        if (exactMatch) return exactMatch;
+        
+        // Case-insensitive fallback
+        const lowerKey = person.image_url.toLowerCase();
+        const matchedKey = Object.keys(leadershipImageMap).find(key => key.toLowerCase() === lowerKey);
+        return matchedKey ? leadershipImageMap[matchedKey] : null;
+    };
     return (
         <div className="home">
 
@@ -223,44 +318,72 @@ function Home() {
 
             {/* ══ BIENVENUE + LEADERSHIP ══ */}
             <section className="welcome-section">
-                {/* Welcome intro */}
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="welcome-intro-grid">
-                    <div className="welcome-image">
-                        <img src={welcomeImage} alt="Famille" />
+                {/* Welcome intro - REDESIGNED LIKE SERMON CARD */}
+<motion.div 
+    initial={{ opacity: 0, y: 30 }} 
+    whileInView={{ opacity: 1, y: 0 }} 
+    transition={{ duration: 0.6 }} 
+    className="welcome-card"
+>
+    <div className="welcome-card-image">
+        <img src={welcomeImage} alt="Famille" />
+    </div>
+    <div className="welcome-card-content">
+        <span className="section-tag">Notre Communauté</span>
+        <h2>Bienvenue à Notre Famille</h2>
+        <p className="welcome-body">
+            Vous êtes chez vous ici. Peu importe votre histoire ou votre parcours — il y a une place pour vous dans notre communauté. Nous sommes une famille de croyants réunis par la foi en Jésus-Christ, déterminés à grandir ensemble, à servir et à rayonner l'amour de Dieu.
+        </p>
+        <p className="welcome-body">
+            Chaque dimanche, nous nous retrouvons pour adorer, écouter la Parole et nous encourager mutuellement. Que vous veniez pour la première fois ou que vous cherchiez une maison spirituelle, nous vous accueillons à bras ouverts.
+        </p>
+        <div className="welcome-features-grid">
+            {[
+                { icon: <FaHeart />, label: 'Accueil chaleureux', desc: 'Une équipe dédiée pour vous recevoir' },
+                { icon: <FaBible />, label: 'Messages inspirants', desc: 'La Parole de Dieu enseignée avec clarté' },
+                { icon: <FaUserFriends />, label: 'Communauté aimante', desc: 'Des liens authentiques pour grandir ensemble' },
+            ].map((f, i) => (
+                <div key={i} className="welcome-feature-item">
+                    <div className="welcome-feature-icon">{f.icon}</div>
+                    <div>
+                        <strong>{f.label}</strong>
+                        <p>{f.desc}</p>
                     </div>
-                    <div className="welcome-content">
-                        <span className="section-tag">Notre Communauté</span>
-                        <h2>Bienvenue à Notre Famille</h2>
-                        <p className="welcome-body">
-                            Vous êtes chez vous ici. Peu importe votre histoire ou votre parcours — il y a une place pour vous dans notre communauté. Nous sommes une famille de croyants réunis par la foi en Jésus-Christ, déterminés à grandir ensemble, à servir et à rayonner l'amour de Dieu.
-                        </p>
-                        <p className="welcome-body">
-                            Chaque dimanche, nous nous retrouvons pour adorer, écouter la Parole et nous encourager mutuellement. Que vous veniez pour la première fois ou que vous cherchiez une maison spirituelle, nous vous accueillons à bras ouverts.
-                        </p>
-                        <div className="first-visit-box">
-                            <h4>Votre Première Visite</h4>
-                            <ul>
-                                <li><strong>Arrivée :</strong> Venez comme vous êtes — tenue correcte appréciée</li>
-                                <li><strong>Accueil :</strong> Notre équipe vous reçoit dès l'entrée</li>
-                                <li><strong>Enfants :</strong> École du Dimanche disponible</li>
-                                <li><strong>Durée :</strong> Environ 2 heures de louange et Parole</li>
-                            </ul>
-                        </div>
-                        <div className="welcome-features">
-                            {[
-                                { icon: <FaHeart />, label: 'Accueil chaleureux', desc: 'Une équipe dédiée pour vous recevoir' },
-                                { icon: <FaBible />, label: 'Messages inspirants', desc: 'La Parole de Dieu enseignée avec clarté' },
-                                { icon: <FaUserFriends />, label: 'Communauté aimante', desc: 'Des liens authentiques pour grandir ensemble' },
-                            ].map((f, i) => (
-                                <div key={i} className="feature-card">
-                                    <div className="feature-card-icon">{f.icon}</div>
-                                    <div><strong>{f.label}</strong><p>{f.desc}</p></div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
-
+                </div>
+            ))}
+        </div>
+        <div className="first-visit-grid">
+    <div className="visit-item">
+        <div className="visit-icon"><FaDoorOpen /></div>
+        <div>
+            <h4>Arrivée</h4>
+            <p>Venez comme vous êtes — tenue correcte appréciée</p>
+        </div>
+    </div>
+    <div className="visit-item">
+        <div className="visit-icon"><FaHands /></div>
+        <div>
+            <h4>Accueil</h4>
+            <p>Notre équipe vous reçoit dès l'entrée</p>
+        </div>
+    </div>
+    <div className="visit-item">
+        <div className="visit-icon"><FaChild /></div>
+        <div>
+            <h4>Enfants</h4>
+            <p>École du Dimanche disponible pendant le culte</p>
+        </div>
+    </div>
+    <div className="visit-item">
+        <div className="visit-icon"><FaClock /></div>
+        <div>
+            <h4>Durée</h4>
+            <p>Environ 2 heures de louange et Parole</p>
+        </div>
+    </div>
+</div>
+    </div>
+</motion.div>
                 {/* Leadership team */}
                 <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="leadership-block">
                     <div className="leadership-header">
@@ -272,12 +395,19 @@ function Home() {
                     {/* Pastor Principal */}
                     <div className="pastor-featured-card">
                         <div className="pastor-featured-img">
-                            <img src={leadershipTeam[0].image} alt={leadershipTeam[0].name} />
+                            {leadershipTeam.length > 0 && leadershipTeam[0]?.image_url ? (
+                                <img 
+                                    src={getLeadershipImage(leadershipTeam[0]) || pastorImage} 
+                                    alt={leadershipTeam[0].name} 
+                                />
+                            ) : (
+                                <img src={pastorImage} alt="Pasteur Principal" />
+                            )}
                         </div>
                         <div className="pastor-featured-content">
                             <span className="section-tag">Leadership</span>
-                            <h3>{leadershipTeam[0].name}</h3>
-                            <p className="pastor-role">{leadershipTeam[0].role}</p>
+                            <h3>{leadershipTeam.length > 0 ? leadershipTeam[0].name : 'Dr. Rév. Past. Batuvanwa Wilondja Imani Matabishi'}</h3>
+                            <p className="pastor-role">{leadershipTeam.length > 0 ? leadershipTeam[0].role : 'Pasteur Principal'}</p>
                             <p className="pastor-bio-text">
                                 Un homme de Dieu passionné par l'évangélisation et l'édification des familles, guidant notre église avec sagesse, humilité et un cœur de serviteur depuis de nombreuses années.
                             </p>
@@ -290,59 +420,121 @@ function Home() {
 
                     {/* Elders & Deacons grid */}
                     <div className="elders-grid">
-                        {leadershipTeam.slice(1).map((person, i) => (
-                            <motion.div key={i} className="elder-card"
-                                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-                                <div className="elder-img-wrap">
-                                    {person.image
-                                        ? <img src={person.image} alt={person.name} />
-                                        : <div className="elder-placeholder"><FaUserFriends /></div>
-                                    }
+                        {leadershipTeam.length > 0 ? (
+                            leadershipTeam.slice(1).map((person, i) => (
+                                <motion.div key={i} className="elder-card"
+                                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+                                    <div className="elder-img-wrap">
+                                        {person.image_url && getLeadershipImage(person) ? (
+                                            <img src={getLeadershipImage(person)} alt={person.name} />
+                                        ) : (
+                                            <div className="elder-placeholder"><FaUserFriends /></div>
+                                        )}
+                                    </div>
+                                    <div className="elder-info">
+                                        <h4>{person.name}</h4>
+                                        <p>{person.role}</p>
+                                    </div>
+                                </motion.div>
+                            ))
+                        ) : (
+                            // Fallback if leadershipTeam is empty
+                            <>
+                                <div className="elder-card">
+                                    <div className="elder-img-wrap"><div className="elder-placeholder"><FaUserFriends /></div></div>
+                                    <div className="elder-info"><h4>Chargement...</h4><p>Équipe</p></div>
                                 </div>
-                                <div className="elder-info">
-                                    <h4>{person.name}</h4>
-                                    <p>{person.role}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+                            </>
+                        )}
                     </div>
                 </motion.div>
             </section>
 
-            {/* ══ LATEST SERMON ══ */}
-            <section className="sermon-section">
-                <div className="container">
-                    <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                        <div className="sermon-header">
-                            <span className="section-tag">Prédications</span>
-                            <h2>Dernière Prédication</h2>
-                        </div>
-                        <div className="sermon-card">
-                            <div className="sermon-thumbnail">
-                                <img src={latestSermon.thumbnail} alt="Sermon" />
-                                <div className="sermon-play-btn"><FaPlay /></div>
-                                <div className="sermon-duration"><FaHeadphones style={{ marginRight: 6 }} />{latestSermon.duration}</div>
-                            </div>
-                            <div className="sermon-info">
-                                <span className="sermon-series">{latestSermon.series}</span>
-                                <h3>{latestSermon.title}</h3>
-                                <div className="sermon-meta">
-                                    <div className="sermon-meta-item"><FaMicrophone className="sermon-meta-icon" /><span>{latestSermon.speaker}</span></div>
-                                    <div className="sermon-meta-item"><FaCalendarAlt className="sermon-meta-icon" /><span>{latestSermon.date}</span></div>
-                                </div>
-                                <p className="sermon-desc">
-                                    Dans ce message puissant, le Pasteur nous invite à avancer dans la confiance totale en Dieu, même lorsque le chemin semble incertain. La foi n'est pas l'absence de doute — c'est le choix de faire confiance malgré tout.
-                                </p>
-                                <div className="sermon-actions">
-                                    <button className="btn-sermon-play"><FaPlay style={{ marginRight: 8 }} />Écouter Maintenant</button>
-                                    <a href="/sermons" className="btn-sermon-all">Toutes les Prédications →</a>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
+          {/* ══ LATEST SERMON - NEW VERSION ══ */}
+<section className="sermon-section home-sermon-new">
+    <div className="container">
+        <motion.div 
+            initial={{ opacity: 0, y: 30 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }}
+        >
+            {/* Header */}
+            <div className="sermon-header-new">
+                <span className="section-tag">Prédications</span>
+                <h2>Dernière Prédication</h2>
+            </div>
 
+            {/* Main Card - New Layout */}
+            <div className="sermon-card-new">
+                {/* LEFT: Video with custom play button */}
+<div className="sermon-video-new">
+    <div className="video-wrapper-new">
+        {isVideoPlaying ? (
+            <iframe 
+                src={`${latestSermon.videoUrl}?autoplay=1`}
+                title={latestSermon.title}
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+            ></iframe>
+        ) : (
+            <>
+                <img 
+                    src="https://img.youtube.com/vi/AVT74mxa944/maxresdefault.jpg" 
+                    alt={latestSermon.title}
+                    className="video-thumbnail-new"
+                />
+                <button 
+                    className="custom-play-btn-new"
+                    onClick={() => setIsVideoPlaying(true)}
+                >
+                    <FaPlay className="play-icon-new" />
+                </button>
+            </>
+        )}
+    </div>
+    <div className="video-duration-new">
+        <FaHeadphones style={{ marginRight: 6 }} />
+        {latestSermon.duration}
+    </div>
+</div>
+
+                {/* Right: Content */}
+                <div className="sermon-content-new">
+                    <div className="series-tag-new">{latestSermon.series}</div>
+                    <h3 className="sermon-title-new">{latestSermon.title}</h3>
+                    
+                    {/* Speaker - Clean alignment */}
+                    <div className="sermon-speaker-new">
+                        <FaMicrophone className="speaker-icon-new" />
+                        <span>{latestSermon.speaker}</span>
+                    </div>
+                    
+                    {/* Date - Clean alignment */}
+                    <div className="sermon-date-new">
+                        <FaCalendarAlt className="date-icon-new" />
+                        <span>{latestSermon.date}</span>
+                    </div>
+                    
+                    <p className="sermon-description-new">
+                        Dans ce message puissant, le Pasteur nous invite à avancer dans la confiance totale en Dieu, même lorsque le chemin semble incertain. La foi n'est pas l'absence de doute — c'est le choix de faire confiance malgré tout.
+                    </p>
+                    
+                    <div className="sermon-buttons-new">
+                        <button 
+                            className="btn-listen-new"
+                            onClick={() => setIsVideoPlaying(true)}
+                        >
+                            <FaPlay style={{ marginRight: 8 }} />
+                            Écouter Maintenant
+                        </button>
+                        <a href="/sermons" className="btn-all-new">Toutes les Prédications →</a>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    </div>
+</section>
             {/* ══ ÉCOLE DU DIMANCHE ══ */}
             <section className="sunday-school-section">
                 <div className="container-full">
@@ -381,12 +573,37 @@ function Home() {
                             <div className="ss-image-badge"><span className="ss-badge-number">2</span><span className="ss-badge-label">Sessions chaque Dimanche</span></div>
                         </div>
                     </motion.div>
-                    <div className="ministry-photo-strip">
-                        {sundaySchoolPhotos.map((src, i) => (
-                            <motion.div key={i} className="ministry-photo" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
-                                <img src={src} alt={`École ${i + 1}`} />
-                            </motion.div>
-                        ))}
+                    
+                    {/* Sunday School Carousel - 3 images visible at a time */}
+                    <div className="ministry-photo-carousel">
+                        <button 
+                            className="carousel-arrow carousel-arrow--left" 
+                            onClick={ssPrevImage}
+                            disabled={ssCurrentIndex === 0}
+                        >
+                            <FaChevronLeft />
+                        </button>
+                        
+                        <div className="carousel-track-container">
+                            <div 
+                                className="carousel-track"
+                                style={{ transform: `translateX(-${ssCurrentIndex * (100 / 3)}%)` }}
+                            >
+                                {sundaySchoolPhotos.map((src, i) => (
+                                    <div key={i} className="carousel-slide">
+                                        <img src={src} alt={`École du Dimanche ${i + 1}`} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <button 
+                            className="carousel-arrow carousel-arrow--right" 
+                            onClick={ssNextImage}
+                            disabled={ssCurrentIndex === ssMaxIndex}
+                        >
+                            <FaChevronRight />
+                        </button>
                     </div>
                 </div>
             </section>
@@ -432,12 +649,37 @@ function Home() {
                             </div>
                         </div>
                     </motion.div>
-                    <div className="ministry-photo-strip ministry-photo-strip--dark">
-                        {youthPhotos.map((src, i) => (
-                            <motion.div key={i} className="ministry-photo" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
-                                <img src={src} alt={`Jeunesse ${i + 1}`} />
-                            </motion.div>
-                        ))}
+                    
+                    {/* Youth Carousel - 3 images visible at a time */}
+                    <div className="ministry-photo-carousel">
+                        <button 
+                            className="carousel-arrow carousel-arrow--left" 
+                            onClick={youthPrevImage}
+                            disabled={youthCurrentIndex === 0}
+                        >
+                            <FaChevronLeft />
+                        </button>
+                        
+                        <div className="carousel-track-container">
+                            <div 
+                                className="carousel-track"
+                                style={{ transform: `translateX(-${youthCurrentIndex * (100 / 3)}%)` }}
+                            >
+                                {youthPhotos.map((src, i) => (
+                                    <div key={i} className="carousel-slide">
+                                        <img src={src} alt={`Jeunesse ${i + 1}`} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <button 
+                            className="carousel-arrow carousel-arrow--right" 
+                            onClick={youthNextImage}
+                            disabled={youthCurrentIndex === youthMaxIndex}
+                        >
+                            <FaChevronRight />
+                        </button>
                     </div>
                 </div>
             </section>
@@ -491,12 +733,37 @@ function Home() {
                             </div>
                         </div>
                     </motion.div>
-                    <div className="ministry-photo-strip">
-                        {ladiesPhotos.map((src, i) => (
-                            <motion.div key={i} className="ministry-photo" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
-                                <img src={src} alt={`Femmes ${i + 1}`} />
-                            </motion.div>
-                        ))}
+                    
+                    {/* Ladies Carousel - 3 images visible at a time */}
+                    <div className="ministry-photo-carousel">
+                        <button 
+                            className="carousel-arrow carousel-arrow--left" 
+                            onClick={ladiesPrevImage}
+                            disabled={ladiesCurrentIndex === 0}
+                        >
+                            <FaChevronLeft />
+                        </button>
+                        
+                        <div className="carousel-track-container">
+                            <div 
+                                className="carousel-track"
+                                style={{ transform: `translateX(-${ladiesCurrentIndex * (100 / 3)}%)` }}
+                            >
+                                {ladiesPhotos.map((src, i) => (
+                                    <div key={i} className="carousel-slide">
+                                        <img src={src} alt={`Femmes ${i + 1}`} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <button 
+                            className="carousel-arrow carousel-arrow--right" 
+                            onClick={ladiesNextImage}
+                            disabled={ladiesCurrentIndex === ladiesMaxIndex}
+                        >
+                            <FaChevronRight />
+                        </button>
                     </div>
                 </div>
             </section>
@@ -687,6 +954,7 @@ function Home() {
                                 <li><a href="/sermons">Prédications</a></li>
                                 <li><a href="/events">Événements</a></li>
                                 <li><a href="/prayer">Prière</a></li>
+                                <li><a href="/giving">Offrandes</a></li>
                                 <li><a href="/contact">Contact</a></li>
                             </ul>
                         </div>

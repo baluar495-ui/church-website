@@ -31,9 +31,15 @@ function Giving() {
     };
 
     const mobileMoneyDetails = {
-        provider: 'Airtel Money / Vodacom M-Pesa',
-        number: '+243 977 103 630',
-        name: '8ème CEPAC PENUEL'
+        provider: 'Airtel Money / Orange Money / M-Pesa / Africell',
+        number: 'Voir ci-dessous',
+        name: '8ème CEPAC PENUEL',
+        operators: [
+            { name: 'Airtel Money', number: '0984462595' },
+            { name: 'Orange Money', number: '0853796142' },
+            { name: 'M-Pesa', number: '0818570273' },
+            { name: 'Africell', number: '0910089297' }
+        ]
     };
 
     const copyToClipboard = (text) => {
@@ -47,7 +53,7 @@ function Giving() {
             id: 'mobile',
             icon: <FaMobileAlt />,
             title: 'Mobile Money',
-            description: 'Airtel Money, Vodacom M-Pesa'
+            description: 'Airtel Money, Orange Money, M-Pesa, Africell'
         },
         {
             id: 'bank',
@@ -147,25 +153,32 @@ function Giving() {
                         {selectedMethod === 'mobile' && (
                             <div className="details-content">
                                 <h3><FaMobileAlt className="details-icon" /> Mobile Money</h3>
-                                <p>Envoyez votre offrande via Airtel Money ou Vodacom M-Pesa</p>
+                                <p>Envoyez votre offrande via l'un de nos opérateurs Mobile Money</p>
                                 <div className="details-info">
-                                    <div className="info-row">
-                                        <span className="info-label">Numéro :</span>
-                                        <span className="info-value">{mobileMoneyDetails.number}</span>
-                                        <button 
-                                            className="btn-copy"
-                                            onClick={() => copyToClipboard(mobileMoneyDetails.number)}
-                                        >
-                                            {copied ? <FaCheck /> : <FaCopy />}
-                                        </button>
-                                    </div>
                                     <div className="info-row">
                                         <span className="info-label">Nom :</span>
                                         <span className="info-value">{mobileMoneyDetails.name}</span>
                                     </div>
+                                    <div className="info-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '8px', marginTop: '8px' }}>
+                                        <span className="info-label">Numéros :</span>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+                                            {mobileMoneyDetails.operators.map((op, index) => (
+                                                <div key={index} className="info-row" style={{ margin: 0, padding: 0 }}>
+                                                    <span style={{ fontWeight: '600', color: '#1E3A8A', minWidth: '120px', fontSize: '14px' }}>{op.name} :</span>
+                                                    <span className="info-value" style={{ fontSize: '14px' }}>{op.number}</span>
+                                                    <button 
+                                                        className="btn-copy"
+                                                        onClick={() => copyToClipboard(op.number)}
+                                                    >
+                                                        {copied ? <FaCheck /> : <FaCopy />}
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                     <div className="info-row">
-                                        <span className="info-label">Opérateurs :</span>
-                                        <span className="info-value">Airtel Money, Vodacom M-Pesa</span>
+                                        <span className="info-label">Devise :</span>
+                                        <span className="info-value">CDF / USD</span>
                                     </div>
                                 </div>
                                 <div className="giving-note">

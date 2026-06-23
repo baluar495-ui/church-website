@@ -5,7 +5,8 @@ require('dotenv').config();
 const sermonRoutes = require('./routes/sermons');
 const eventRoutes = require('./routes/events');
 const prayerRoutes = require('./routes/prayer');
-const contactRoutes = require('./routes/contact');  // ← ADD THIS
+const contactRoutes = require('./routes/contact');
+const leadershipRoutes = require('./routes/leadership');  // ← MOVED THIS HERE
 
 const app = express();
 
@@ -18,7 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/sermons', sermonRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/prayer', prayerRoutes);
-app.use('/api/contact', contactRoutes);  // ← ADD THIS
+app.use('/api/contact', contactRoutes);
+app.use('/api/leadership', leadershipRoutes);  // ← ADD THIS ROUTE
 
 // Home route
 app.get('/', (req, res) => {
