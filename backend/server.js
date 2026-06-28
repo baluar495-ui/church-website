@@ -7,7 +7,7 @@ const eventRoutes = require('./routes/events');
 const prayerRoutes = require('./routes/prayer');
 const contactRoutes = require('./routes/contact');
 const leadershipRoutes = require('./routes/leadership');  // ← MOVED THIS HERE
-
+const adminRoutes = require('./routes/admin');
 const app = express();
 
 // Middleware
@@ -21,6 +21,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/prayer', prayerRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/leadership', leadershipRoutes);  // ← ADD THIS ROUTE
+app.use('/api/admin', adminRoutes);
 
 // Home route
 app.get('/', (req, res) => {

@@ -3,6 +3,50 @@ import { FaPlay, FaCalendarAlt, FaMicrophone, FaSearch } from 'react-icons/fa';
 import { sermonsAPI } from '../services/api';
 import './sermons.css';
 
+// ============================================
+// YOUTUBE URL HELPERS - Handles ALL YouTube URL formats
+// ============================================
+
+// Extract video ID from ANY YouTube URL
+const getYouTubeVideoId = (url) => {
+    if (!url) return null;
+    
+    const patterns = [
+        /youtube\.com\/embed\/([^?&#]+)/,
+        /youtube\.com\/watch\?v=([^?&#]+)/,
+        /youtu\.be\/([^?&#]+)/,
+        /youtube\.com\/live\/([^?&#]+)/,
+        /youtube\.com\/shorts\/([^?&#]+)/
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) {
+            return match[1].split('?')[0];
+        }
+    }
+    
+    return null;
+};
+
+// Convert ANY YouTube URL to embed URL
+const getYouTubeEmbedUrl = (url) => {
+    const videoId = getYouTubeVideoId(url);
+    if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    return url;
+};
+
+// Get thumbnail from YouTube URL
+const getYouTubeThumbnail = (url) => {
+    const videoId = getYouTubeVideoId(url);
+    if (videoId) {
+        return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    }
+    return null;
+};
+
 function Sermons() {
     const [sermons, setSermons] = useState([]);
     const [filteredSermons, setFilteredSermons] = useState([]);
@@ -18,17 +62,27 @@ function Sermons() {
                 const res = await sermonsAPI.getAll();
                 const sermonsData = res.data.data || [];
                 
-                const updatedData = sermonsData.map(sermon => ({
-                    id: sermon.id,
-                    title: sermon.title,
-                    speaker: sermon.speaker,
-                    scripture: sermon.scripture,
-                    description: sermon.description,
-                    sermon_date: sermon.sermon_date,
-                    videoUrl: sermon.video_url || 'https://www.youtube.com/embed/AVT74mxa944',
-                    videoPlatform: 'youtube',
-                    thumbnail: `https://img.youtube.com/vi/AVT74mxa944/hqdefault.jpg`
-                }));
+                const updatedData = sermonsData.map(sermon => {
+                    // Convert any YouTube URL to embed format
+                    const videoUrl = sermon.video_url || 'https://www.youtube.com/embed/AVT74mxa944';
+                    const embedUrl = getYouTubeEmbedUrl(videoUrl);
+                    const videoId = getYouTubeVideoId(videoUrl);
+                    const thumbnail = videoId 
+                        ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` 
+                        : sermon.thumbnail || 'https://img.youtube.com/vi/AVT74mxa944/hqdefault.jpg';
+                    
+                    return {
+                        id: sermon.id,
+                        title: sermon.title,
+                        speaker: sermon.speaker,
+                        scripture: sermon.scripture,
+                        description: sermon.description,
+                        sermon_date: sermon.sermon_date,
+                        videoUrl: embedUrl,
+                        videoPlatform: 'youtube',
+                        thumbnail: thumbnail
+                    };
+                });
                 
                 setSermons(updatedData);
                 setFilteredSermons(updatedData);
@@ -132,7 +186,6 @@ function Sermons() {
             transition: 'all 0.3s ease',
             paddingLeft: '6px',
             zIndex: 2,
-            border: 'none',
         },
         iframe: {
             position: 'absolute',
