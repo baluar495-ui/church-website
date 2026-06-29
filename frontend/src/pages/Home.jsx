@@ -55,7 +55,7 @@ import ladiesPhoto2 from '../assets/images/Ladies.jpg';
 import ladiesPhoto3 from '../assets/images/Ladies Chairperson.jpg';
 
 // ============================================
-// LEADERSHIP IMAGE MAPPING (Option 2)
+// LEADERSHIP IMAGE MAPPING
 // ============================================
 const leadershipImageMap = {
     '/images/Lead pastor.jpg': pastorImage,
@@ -66,7 +66,6 @@ const leadershipImageMap = {
     '/images/Mwililikwa.jpg': pastorImage5,
     '/images/Ilundu.jpg': pastorImage6,
     '/images/Wasolu.jpg': pastorImage7,
-    // Alternative paths if the database uses different naming
     '/images/Mwililikwa.JPG': pastorImage5,
     '/images/Ilundu.JPG': pastorImage6,
     '/images/Wasolu.JPG': pastorImage7,
@@ -89,7 +88,7 @@ function Home() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [loading, setLoading] = useState(true);
     const [leadershipTeam, setLeadershipTeam] = useState([]);
-    const [isVideoPlaying, setIsVideoPlaying] = useState(false); // <-- ADD THIS
+    const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
     const heroSlides = [
         {
@@ -236,15 +235,22 @@ function Home() {
     // Helper function to get the correct image
     const getLeadershipImage = (person) => {
         if (!person.image_url) return null;
-        // Try exact match first, then fallback to case-insensitive search
         const exactMatch = leadershipImageMap[person.image_url];
         if (exactMatch) return exactMatch;
         
-        // Case-insensitive fallback
         const lowerKey = person.image_url.toLowerCase();
         const matchedKey = Object.keys(leadershipImageMap).find(key => key.toLowerCase() === lowerKey);
         return matchedKey ? leadershipImageMap[matchedKey] : null;
     };
+
+    // Scroll to sermon section
+    const scrollToSermon = () => {
+        const sermonSection = document.querySelector('.home-sermon-new');
+        if (sermonSection) {
+            sermonSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <div className="home">
 
@@ -262,8 +268,18 @@ function Home() {
                         <h1>{heroSlides[currentSlide].title}</h1>
                         <p>{heroSlides[currentSlide].subtitle}</p>
                         <div className="hero-buttons">
-                            <button className="btn-primary">Planifiez Votre Visite</button>
-                            <button className="btn-outline"><FaPlay style={{ marginRight: 8 }} /> Regarder en Direct</button>
+                            <button 
+                                className="btn-primary" 
+                                onClick={() => window.location.href = '/contact'}
+                            >
+                                Planifiez Votre Visite
+                            </button>
+                            <button 
+                                className="btn-outline" 
+                                onClick={scrollToSermon}
+                            >
+                                <FaPlay style={{ marginRight: 8 }} /> Regarder en Direct
+                            </button>
                         </div>
                     </motion.div>
                 </div>
@@ -438,103 +454,101 @@ function Home() {
                                 </motion.div>
                             ))
                         ) : (
-                            // Fallback if leadershipTeam is empty
-                            <>
-                                <div className="elder-card">
-                                    <div className="elder-img-wrap"><div className="elder-placeholder"><FaUserFriends /></div></div>
-                                    <div className="elder-info"><h4>Chargement...</h4><p>Équipe</p></div>
-                                </div>
-                            </>
+                            <div className="elder-card">
+                                <div className="elder-img-wrap"><div className="elder-placeholder"><FaUserFriends /></div></div>
+                                <div className="elder-info"><h4>Chargement...</h4><p>Équipe</p></div>
+                            </div>
                         )}
                     </div>
                 </motion.div>
             </section>
 
-          {/* ══ LATEST SERMON - NEW VERSION ══ */}
-<section className="sermon-section home-sermon-new">
-    <div className="container">
-        <motion.div 
-            initial={{ opacity: 0, y: 30 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6 }}
-        >
-            {/* Header */}
-            <div className="sermon-header-new">
-                <span className="section-tag">Prédications</span>
-                <h2>Dernière Prédication</h2>
-            </div>
+            {/* ══ LATEST SERMON - NEW VERSION ══ */}
+            <section className="sermon-section home-sermon-new">
+                <div className="container">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }} 
+                        whileInView={{ opacity: 1, y: 0 }} 
+                        transition={{ duration: 0.6 }}
+                    >
+                        {/* Header */}
+                        <div className="sermon-header-new">
+                            <span className="section-tag">Prédications</span>
+                            <h2>Dernière Prédication</h2>
+                        </div>
 
-            {/* Main Card - New Layout */}
-            <div className="sermon-card-new">
-                {/* LEFT: Video with custom play button */}
-<div className="sermon-video-new">
-    <div className="video-wrapper-new">
-        {isVideoPlaying ? (
-            <iframe 
-                src={`${latestSermon.videoUrl}?autoplay=1`}
-                title={latestSermon.title}
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-            ></iframe>
-        ) : (
-            <>
-                <img 
-                    src="https://img.youtube.com/vi/AVT74mxa944/maxresdefault.jpg" 
-                    alt={latestSermon.title}
-                    className="video-thumbnail-new"
-                />
-                <button 
-                    className="custom-play-btn-new"
-                    onClick={() => setIsVideoPlaying(true)}
-                >
-                    <FaPlay className="play-icon-new" />
-                </button>
-            </>
-        )}
-    </div>
-    <div className="video-duration-new">
-        <FaHeadphones style={{ marginRight: 6 }} />
-        {latestSermon.duration}
-    </div>
-</div>
+                        {/* Main Card - New Layout */}
+                        <div className="sermon-card-new">
+                            {/* LEFT: Video with custom play button */}
+                            <div className="sermon-video-new">
+                                <div className="video-wrapper-new">
+                                    {isVideoPlaying ? (
+                                        <iframe 
+                                            src={`${latestSermon.videoUrl}?autoplay=1`}
+                                            title={latestSermon.title}
+                                            frameBorder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowFullScreen
+                                        ></iframe>
+                                    ) : (
+                                        <>
+                                            <img 
+                                                src="https://img.youtube.com/vi/AVT74mxa944/maxresdefault.jpg" 
+                                                alt={latestSermon.title}
+                                                className="video-thumbnail-new"
+                                            />
+                                            <button 
+                                                className="custom-play-btn-new"
+                                                onClick={() => setIsVideoPlaying(true)}
+                                            >
+                                                <FaPlay className="play-icon-new" />
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                                <div className="video-duration-new">
+                                    <FaHeadphones style={{ marginRight: 6 }} />
+                                    {latestSermon.duration}
+                                </div>
+                            </div>
 
-                {/* Right: Content */}
-                <div className="sermon-content-new">
-                    <div className="series-tag-new">{latestSermon.series}</div>
-                    <h3 className="sermon-title-new">{latestSermon.title}</h3>
-                    
-                    {/* Speaker - Clean alignment */}
-                    <div className="sermon-speaker-new">
-                        <FaMicrophone className="speaker-icon-new" />
-                        <span>{latestSermon.speaker}</span>
-                    </div>
-                    
-                    {/* Date - Clean alignment */}
-                    <div className="sermon-date-new">
-                        <FaCalendarAlt className="date-icon-new" />
-                        <span>{latestSermon.date}</span>
-                    </div>
-                    
-                    <p className="sermon-description-new">
-                        Dans ce message puissant, le Pasteur nous invite à avancer dans la confiance totale en Dieu, même lorsque le chemin semble incertain. La foi n'est pas l'absence de doute — c'est le choix de faire confiance malgré tout.
-                    </p>
-                    
-                    <div className="sermon-buttons-new">
-                        <button 
-                            className="btn-listen-new"
-                            onClick={() => setIsVideoPlaying(true)}
-                        >
-                            <FaPlay style={{ marginRight: 8 }} />
-                            Écouter Maintenant
-                        </button>
-                        <a href="/sermons" className="btn-all-new">Toutes les Prédications →</a>
-                    </div>
+                            {/* Right: Content */}
+                            <div className="sermon-content-new">
+                                <div className="series-tag-new">{latestSermon.series}</div>
+                                <h3 className="sermon-title-new">{latestSermon.title}</h3>
+                                
+                                {/* Speaker - Clean alignment */}
+                                <div className="sermon-speaker-new">
+                                    <FaMicrophone className="speaker-icon-new" />
+                                    <span>{latestSermon.speaker}</span>
+                                </div>
+                                
+                                {/* Date - Clean alignment */}
+                                <div className="sermon-date-new">
+                                    <FaCalendarAlt className="date-icon-new" />
+                                    <span>{latestSermon.date}</span>
+                                </div>
+                                
+                                <p className="sermon-description-new">
+                                    Dans ce message puissant, le Pasteur nous invite à avancer dans la confiance totale en Dieu, même lorsque le chemin semble incertain. La foi n'est pas l'absence de doute — c'est le choix de faire confiance malgré tout.
+                                </p>
+                                
+                                <div className="sermon-buttons-new">
+                                    <button 
+                                        className="btn-listen-new"
+                                        onClick={() => setIsVideoPlaying(true)}
+                                    >
+                                        <FaPlay style={{ marginRight: 8 }} />
+                                        Écouter Maintenant
+                                    </button>
+                                    <a href="/sermons" className="btn-all-new">Toutes les Prédications →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
-            </div>
-        </motion.div>
-    </div>
-</section>
+            </section>
+
             {/* ══ ÉCOLE DU DIMANCHE ══ */}
             <section className="sunday-school-section">
                 <div className="container-full">
